@@ -13,7 +13,7 @@ import { UserPresenter } from './user.presenter';
 @ApiTags('user')
 @ApiResponse({ status: 500, description: 'Internal error' })
 @ApiExtraModels(UserPresenter)
-export class TodoController {
+export class UserController {
   constructor(
     @Inject(UsecasesProxyModule.POST_USER_USECASES_PROXY)
     private readonly addUserUsecaseProxy: UseCaseProxy<AddUserUseCases>,

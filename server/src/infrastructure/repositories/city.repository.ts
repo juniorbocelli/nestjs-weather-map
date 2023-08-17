@@ -28,8 +28,8 @@ export class DatabaseCityRepository implements CityRepository {
     return citiesEntity.map((cityEntity) => this.toCity(cityEntity));
   }
   async findById(id: number): Promise<CityM> {
-    const todoEntity = await this.cityEntityRepository.findOneOrFail(id);
-    return this.toCity(todoEntity);
+    const cityEntity = await this.cityEntityRepository.findOneOrFail(id);
+    return this.toCity(cityEntity);
   }
   async deleteById(id: number): Promise<void> {
     await this.cityEntityRepository.delete({ id: id });

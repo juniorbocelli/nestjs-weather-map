@@ -16,7 +16,7 @@ const config: ConnectionOptions = {
   synchronize: false,
   schema: process.env.DATABASE_SCHEMA,
   migrationsRun: true,
-  migrationsTableName: 'migration_todo',
+  migrationsTableName: 'migration_weather',
   migrations: ['database/migrations/**/*{.ts,.js}'],
   cli: {
     migrationsDir: 'database/migrations',

@@ -1,10 +1,4 @@
 import { DynamicModule, Module } from '@nestjs/common';
-// todos
-import { addTodoUseCases } from '../../usecases/todo/addTodo.usecases';
-import { deleteTodoUseCases } from '../../usecases/todo/deleteTodo.usecases';
-import { GetTodoUseCases } from '../../usecases/todo/getTodo.usecases';
-import { getTodosUseCases } from '../../usecases/todo/getTodos.usecases';
-import { updateTodoUseCases } from '../../usecases/todo/updateTodo.usecases';
 // auth
 import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
 import { LoginUseCases } from '../../usecases/auth/login.usecases';
@@ -22,7 +16,6 @@ import { JwtModule } from '../services/jwt/jwt.module';
 import { JwtTokenService } from '../services/jwt/jwt.service';
 import { RepositoriesModule } from '../repositories/repositories.module';
 
-import { DatabaseTodoRepository } from '../repositories/todo.repository';
 import { DatabaseUserRepository } from '../repositories/user.repository';
 
 import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
@@ -40,12 +33,6 @@ export class UsecasesProxyModule {
 
   // User
   static POST_USER_USECASES_PROXY = 'postUserUsecasesProxy';
-
-  static GET_TODO_USECASES_PROXY = 'getTodoUsecasesProxy';
-  static GET_TODOS_USECASES_PROXY = 'getTodosUsecasesProxy';
-  static POST_TODO_USECASES_PROXY = 'postTodoUsecasesProxy';
-  static DELETE_TODO_USECASES_PROXY = 'deleteTodoUsecasesProxy';
-  static PUT_TODO_USECASES_PROXY = 'putTodoUsecasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -72,35 +59,6 @@ export class UsecasesProxyModule {
           provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
           useFactory: () => new UseCaseProxy(new LogoutUseCases()),
         },
-        // todo
-        {
-          inject: [DatabaseTodoRepository],
-          provide: UsecasesProxyModule.GET_TODO_USECASES_PROXY,
-          useFactory: (todoRepository: DatabaseTodoRepository) => new UseCaseProxy(new GetTodoUseCases(todoRepository)),
-        },
-        {
-          inject: [DatabaseTodoRepository],
-          provide: UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
-          useFactory: (todoRepository: DatabaseTodoRepository) => new UseCaseProxy(new getTodosUseCases(todoRepository)),
-        },
-        {
-          inject: [LoggerService, DatabaseTodoRepository],
-          provide: UsecasesProxyModule.POST_TODO_USECASES_PROXY,
-          useFactory: (logger: LoggerService, todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new addTodoUseCases(logger, todoRepository)),
-        },
-        {
-          inject: [LoggerService, DatabaseTodoRepository],
-          provide: UsecasesProxyModule.PUT_TODO_USECASES_PROXY,
-          useFactory: (logger: LoggerService, todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new updateTodoUseCases(logger, todoRepository)),
-        },
-        {
-          inject: [LoggerService, DatabaseTodoRepository],
-          provide: UsecasesProxyModule.DELETE_TODO_USECASES_PROXY,
-          useFactory: (logger: LoggerService, todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new deleteTodoUseCases(logger, todoRepository)),
-        },
         // user
         {
           inject: [LoggerService, DatabaseUserRepository, BcryptService],
@@ -114,12 +72,6 @@ export class UsecasesProxyModule {
         UsecasesProxyModule.LOGIN_USECASES_PROXY,
         UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
         UsecasesProxyModule.LOGOUT_USECASES_PROXY,
-        // todo
-        UsecasesProxyModule.GET_TODO_USECASES_PROXY,
-        UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
-        UsecasesProxyModule.POST_TODO_USECASES_PROXY,
-        UsecasesProxyModule.PUT_TODO_USECASES_PROXY,
-        UsecasesProxyModule.DELETE_TODO_USECASES_PROXY,
         // user
         UsecasesProxyModule.POST_USER_USECASES_PROXY,
       ],
