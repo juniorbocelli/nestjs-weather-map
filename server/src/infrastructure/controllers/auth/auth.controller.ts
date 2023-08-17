@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { AuthLoginDto } from './auth-dto.class';
+import { AuthLoginDto } from './auth.dto.class';
 import { IsAuthPresenter } from './auth.presenter';
 
 import JwtRefreshGuard from '../../common/guards/jwtRefresh.guard';
@@ -32,7 +32,7 @@ export class AuthController {
     private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
     @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
-  ) {}
+  ) { }
 
   @Post('login')
   @UseGuards(LoginGuard)
