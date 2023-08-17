@@ -1,8 +1,13 @@
+import { CityM } from './city';
+
 export class UserWithoutPassword {
   private _id: number;
   private _username: string;
+  private _cities: CityM[];
+
   private _createDate: Date;
   private _updatedDate: Date;
+
   private _lastLogin: Date;
   private _hashRefreshToken: string;
 
@@ -20,6 +25,14 @@ export class UserWithoutPassword {
 
   public set username(username: string) {
     this._username = username;
+  };
+
+  public get cities() {
+    return this._cities;
+  };
+
+  public set cities(cities: CityM[]) {
+    this._cities = cities;
   };
 
   public get createDate() {

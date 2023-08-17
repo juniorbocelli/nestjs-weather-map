@@ -11,9 +11,9 @@ export class Todo {
   @Column('boolean', { default: false })
   is_done: boolean;
 
-  @CreateDateColumn({ name: 'createdate' })
+  @CreateDateColumn({ name: 'create_date' })
   created_date: Date;
 
-  @UpdateDateColumn({ name: 'updateddate' })
+  @UpdateDateColumn({ name: 'updated_date' })
   updated_date: Date;
 }

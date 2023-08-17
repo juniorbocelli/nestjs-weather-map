@@ -10,7 +10,7 @@ export class DatabaseTodoRepository implements TodoRepository {
   constructor(
     @InjectRepository(Todo)
     private readonly todoEntityRepository: Repository<Todo>,
-  ) {}
+  ) { }
 
   async updateContent(id: number, isDone: boolean): Promise<void> {
     await this.todoEntityRepository.update(

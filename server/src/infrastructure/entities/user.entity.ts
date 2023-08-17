@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Index,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany
+} from 'typeorm';
+
+import { City } from './city.entity';
 
 @Entity()
 export class User {
@@ -12,15 +22,19 @@ export class User {
   @Column('text')
   password: string;
 
-  @CreateDateColumn({ name: 'createdate' })
-  createdate: Date;
+  // https://typeorm.io/many-to-one-one-to-many-relations
+  @OneToMany(() => City, (city) => city.user)
+  cities: City[];
 
-  @UpdateDateColumn({ name: 'updateddate' })
-  updateddate: Date;
+  @CreateDateColumn({ name: 'create_date' })
+  create_date: Date;
+
+  @UpdateDateColumn({ name: 'updated_date' })
+  updated_date: Date;
 
   @Column({ nullable: true })
   last_login?: Date;
 
   @Column('varchar', { nullable: true })
-  hach_refresh_token: string;
+  hash_refresh_token: string;
 }
