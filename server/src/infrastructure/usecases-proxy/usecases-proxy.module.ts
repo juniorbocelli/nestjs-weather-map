@@ -1,12 +1,16 @@
 import { DynamicModule, Module } from '@nestjs/common';
+// todos
 import { addTodoUseCases } from '../../usecases/todo/addTodo.usecases';
 import { deleteTodoUseCases } from '../../usecases/todo/deleteTodo.usecases';
 import { GetTodoUseCases } from '../../usecases/todo/getTodo.usecases';
 import { getTodosUseCases } from '../../usecases/todo/getTodos.usecases';
 import { updateTodoUseCases } from '../../usecases/todo/updateTodo.usecases';
+// auth
 import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
 import { LoginUseCases } from '../../usecases/auth/login.usecases';
 import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
+// user
+import { AddUserUseCases } from '../../usecases/user/addUser.usecases';
 
 import { ExceptionsModule } from '../exceptions/exceptions.module';
 import { LoggerModule } from '../logger/logger.module';
@@ -33,6 +37,9 @@ export class UsecasesProxyModule {
   static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy';
   static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy';
   static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy';
+
+  // User
+  static POST_USER_USECASES_PROXY = 'postUserUsecasesProxy';
 
   static GET_TODO_USECASES_PROXY = 'getTodoUsecasesProxy';
   static GET_TODOS_USECASES_PROXY = 'getTodosUsecasesProxy';
@@ -65,6 +72,7 @@ export class UsecasesProxyModule {
           provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
           useFactory: () => new UseCaseProxy(new LogoutUseCases()),
         },
+        // todo
         {
           inject: [DatabaseTodoRepository],
           provide: UsecasesProxyModule.GET_TODO_USECASES_PROXY,
@@ -93,17 +101,28 @@ export class UsecasesProxyModule {
           useFactory: (logger: LoggerService, todoRepository: DatabaseTodoRepository) =>
             new UseCaseProxy(new deleteTodoUseCases(logger, todoRepository)),
         },
+        // user
+        {
+          inject: [LoggerService, DatabaseUserRepository, BcryptService],
+          provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
+          useFactory: (logger: LoggerService, userRepository: DatabaseUserRepository, bcryptService: BcryptService) =>
+            new UseCaseProxy(new AddUserUseCases(logger, userRepository, bcryptService)),
+        },
       ],
       exports: [
+        // auth
+        UsecasesProxyModule.LOGIN_USECASES_PROXY,
+        UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
+        UsecasesProxyModule.LOGOUT_USECASES_PROXY,
+        // todo
         UsecasesProxyModule.GET_TODO_USECASES_PROXY,
         UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
         UsecasesProxyModule.POST_TODO_USECASES_PROXY,
         UsecasesProxyModule.PUT_TODO_USECASES_PROXY,
         UsecasesProxyModule.DELETE_TODO_USECASES_PROXY,
-        UsecasesProxyModule.LOGIN_USECASES_PROXY,
-        UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-        UsecasesProxyModule.LOGOUT_USECASES_PROXY,
+        // user
+        UsecasesProxyModule.POST_USER_USECASES_PROXY,
       ],
     };
-  }
+  };
 }
