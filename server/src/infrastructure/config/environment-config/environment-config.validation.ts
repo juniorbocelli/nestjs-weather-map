@@ -12,6 +12,11 @@ class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV: Environment;
 
+  // Open Weather API
+  @IsString()
+  OPEN_WEATHER_KEY: string;
+
+  // JWT
   @IsString()
   JWT_SECRET: string;
   @IsString()
@@ -21,7 +26,7 @@ class EnvironmentVariables {
   @IsString()
   JWT_REFRESH_TOKEN_EXPIRATION_TIME: string;
 
-
+  // Database
   @IsString()
   DATABASE_HOST: string;
   @IsNumber()

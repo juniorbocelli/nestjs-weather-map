@@ -1,12 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseConfig } from '../../../domain/config/database.interface';
-import { JWTConfig } from '../../../domain/config/jwt.interface';
+import { DatabaseConfig } from 'src/domain/config/database.interface';
+import { JWTConfig } from 'src/domain/config/jwt.interface';
+import { OpenWeatherAPI } from 'src/domain/config/openWeatherApi.interface';
 
 @Injectable()
-export class EnvironmentConfigService implements DatabaseConfig, JWTConfig {
+export class EnvironmentConfigService implements DatabaseConfig, JWTConfig, OpenWeatherAPI {
   constructor(private configService: ConfigService) { }
 
+  // Open Weather API
+  getOpenWeatherKey(): string {
+    return this.configService.get<string>('OPEN_WEATHER_KEY');
+  };
+
+  // JWT
   getJwtSecret(): string {
     return this.configService.get<string>('JWT_SECRET');
   };
@@ -23,6 +30,7 @@ export class EnvironmentConfigService implements DatabaseConfig, JWTConfig {
     return this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRATION_TIME');
   };
 
+  // Database
   getDatabaseHost(): string {
     return this.configService.get<string>('DATABASE_HOST');
   };

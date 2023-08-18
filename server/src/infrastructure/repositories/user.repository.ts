@@ -69,15 +69,16 @@ export class DatabaseUserRepository implements UserRepository {
 
     const citiesM: CityM[] = [];
 
-    adminUserEntity.cities.forEach(city => {
-      const cityM = new CityM();
+    if (typeof adminUserEntity.cities !== 'undefined')
+      adminUserEntity.cities.forEach(city => {
+        const cityM = new CityM();
 
-      cityM.id = city.id;
-      cityM.name = city.name;
-      cityM.createDate = city.create_date;
+        cityM.id = city.id;
+        cityM.name = city.name;
+        cityM.createDate = city.create_date;
 
-      citiesM.push(cityM);
-    });
+        citiesM.push(cityM);
+      });
 
     adminUser.cities = citiesM;
 

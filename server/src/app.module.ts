@@ -7,6 +7,7 @@ import { UsecasesProxyModule } from './infrastructure/usecases-proxy/usecases-pr
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 import { BcryptModule } from './infrastructure/services/bcrypt/bcrypt.module';
 import { JwtModule as JwtServiceModule } from './infrastructure/services/jwt/jwt.module';
+import { OpenWeatherModule } from './infrastructure/services/openWeather/openWeather.module';
 import { EnvironmentConfigModule } from './infrastructure/config/environment-config/environment-config.module';
 import { LocalStrategy } from './infrastructure/common/strategies/local.strategy';
 import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy';
@@ -24,8 +25,9 @@ import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwtR
     ControllersModule,
     BcryptModule,
     JwtServiceModule,
+    OpenWeatherModule,
     EnvironmentConfigModule,
   ],
   providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
 })
-export class AppModule {}
+export class AppModule { }
