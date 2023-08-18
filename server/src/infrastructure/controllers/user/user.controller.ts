@@ -20,8 +20,8 @@ export class UserController {
   ) { };
 
   @Post()
-  @ApiResponseType(UserPresenter, true)
-  async addTodo(@Body() addUserDto: AddUserDto) {
+  @ApiResponseType(UserPresenter, false)
+  async addUser(@Body() addUserDto: AddUserDto) {
     const { username, password } = addUserDto;
     const userCreated = await this.addUserUsecaseProxy.getInstance().execute(username, password);
 

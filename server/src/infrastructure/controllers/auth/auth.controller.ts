@@ -32,7 +32,7 @@ export class AuthController {
     private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
     @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
-  ) { }
+  ) { };
 
   @Post('login')
   @UseGuards(LoginGuard)
@@ -43,8 +43,9 @@ export class AuthController {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
     request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+
     return 'Login successful';
-  }
+  };
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
@@ -53,7 +54,7 @@ export class AuthController {
     const cookie = await this.logoutUsecaseProxy.getInstance().execute();
     request.res.setHeader('Set-Cookie', cookie);
     return 'Logout successful';
-  }
+  };
 
   @Get('is_authenticated')
   @ApiBearerAuth()
@@ -64,8 +65,9 @@ export class AuthController {
     const user = await this.isAuthUsecaseProxy.getInstance().execute(request.user.username);
     const response = new IsAuthPresenter();
     response.username = user.username;
+
     return response;
-  }
+  };
 
   @Get('refresh')
   @UseGuards(JwtRefreshGuard)
@@ -73,6 +75,7 @@ export class AuthController {
   async refresh(@Req() request: any) {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(request.user.username);
     request.res.setHeader('Set-Cookie', accessTokenCookie);
+
     return 'Refresh successful';
-  }
+  };
 }
