@@ -30,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = this.loginUsecaseProxy.getInstance().validateUserForJWTStragtegy(payload.username);
     if (!user) {
       this.logger.warn('JwtStrategy', `User not found`);
-      this.exceptionService.UnauthorizedException({ message: 'User not found' });
+      this.exceptionService.UnauthorizedException({ message: 'Usuário não encontrado' });
     }
     return user;
   }

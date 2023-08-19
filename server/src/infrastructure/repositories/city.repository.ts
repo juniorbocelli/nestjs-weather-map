@@ -52,10 +52,12 @@ export class DatabaseCityRepository implements CityRepository {
     city.name = cityEntity.name;
     city.createDate = cityEntity.create_date;
 
-    user.id = cityEntity.user.id;
-    user.username = cityEntity.user.username;
+    if (typeof cityEntity.user !== 'undefined') {
+      user.id = cityEntity.user.id;
+      user.username = cityEntity.user.username;
 
-    city.user = user;
+      city.user = user;
+    };
 
     return city;
   };

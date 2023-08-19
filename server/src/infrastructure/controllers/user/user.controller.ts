@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, UseGuards, Req } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 // usecases
 import { AddUserUseCases } from '../../../usecases/user/addUser.usecases';
@@ -8,6 +8,7 @@ import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
 import { ApiResponseType } from '../../common/swagger/response.decorator';
 import { AddUserDto } from './user.dto';
 import { UserPresenter } from './user.presenter';
+import { LoginGuard } from 'src/infrastructure/common/guards/login.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -20,8 +21,9 @@ export class UserController {
   ) { };
 
   @Post()
+  @UseGuards(LoginGuard)
   @ApiResponseType(UserPresenter, false)
-  async addUser(@Body() addUserDto: AddUserDto) {
+  async addUser(@Body() addUserDto: AddUserDto, @Req() request: any) {
     const { username, password } = addUserDto;
     const userCreated = await this.addUserUsecaseProxy.getInstance().execute(username, password);
 

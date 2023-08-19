@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'local') {
   dotenv.config({ path: './env/local.env' });
-}
+};
 
 const config: ConnectionOptions = {
   type: 'postgres',
@@ -25,7 +25,5 @@ const config: ConnectionOptions = {
   //   rejectUnauthorized: false,
   // },
 };
-
-console.log(config);
 
 export default config;

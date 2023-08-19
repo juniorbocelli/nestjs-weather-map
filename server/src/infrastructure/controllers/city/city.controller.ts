@@ -1,4 +1,15 @@
-import { Body, Controller, Inject, Post, Delete, Get, Req, Query, ParseIntPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Post,
+  Delete,
+  Get,
+  Req,
+  Query,
+  ParseIntPipe,
+  UseGuards
+} from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 // usecases
 import { AddCityUseCases } from 'src/usecases/city/addCity.usecases';
@@ -11,6 +22,7 @@ import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-
 import { ApiResponseType } from '../../common/swagger/response.decorator';
 import { AddCityDto } from 'src/infrastructure/controllers/city/city.dto';
 import { CityPresenter } from 'src/infrastructure/controllers/city/city.presenter';
+import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
 
 @Controller('city')
 @ApiTags('city')
@@ -18,7 +30,7 @@ import { CityPresenter } from 'src/infrastructure/controllers/city/city.presente
 @ApiExtraModels(CityPresenter)
 export class CityController {
   constructor(
-    @Inject()
+    @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
 
     @Inject(UsecasesProxyModule.POST_CITY_USECASES_PROXY)
@@ -30,6 +42,7 @@ export class CityController {
   ) { };
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiResponseType(CityPresenter, false)
   async addCity(@Body() addCityDto: AddCityDto, @Req() request: any) {
     const { name } = addCityDto;
@@ -40,6 +53,7 @@ export class CityController {
   };
 
   @Delete()
+  @UseGuards(JwtAuthGuard)
   async deleteCity(@Query('id', ParseIntPipe) id: number, @Req() request: any) {
     const loggedUser = await this.isAuthUsecaseProxy.getInstance().execute(request.user.username);
     await this.deleteCityUsecaseProxy.getInstance().execute(id, loggedUser.id);
@@ -47,7 +61,8 @@ export class CityController {
     return 'success';
   };
 
-  @Get()
+  @Get('city-informations')
+  @UseGuards(JwtAuthGuard)
   async getCitiesInformations(@Query('lang') lang: string, @Query('units') units: string, @Req() request: any) {
     const loggedUser = await this.isAuthUsecaseProxy.getInstance().execute(request.user.username);
     const informations = await this.getCitiesInformationsUsecaseProxy.getInstance().execute(loggedUser.id, lang, units);

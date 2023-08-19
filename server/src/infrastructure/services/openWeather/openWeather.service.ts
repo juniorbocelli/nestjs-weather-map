@@ -19,8 +19,10 @@ export class OpenWeatherService implements IOpenWeather {
     const lang = payload.lang || "pt_br";
     const units = payload.units || "metric";
 
-    const { data } = await this.httpService.get<AxiosResponse<string>>(`${this.baseURL}?q=${payload.cityName}&lang=${lang}&units=${units}`).toPromise();
+    const response: {
+      data: OpenWeatherM
+    } = await this.httpService.get(`${this.baseURL}?appid=${payload.appid}&q=${payload.cityName}&lang=${lang}&units=${units}`).toPromise();
 
-    return JSON.parse(data.data) as OpenWeatherM;
+    return response.data;
   };
 }

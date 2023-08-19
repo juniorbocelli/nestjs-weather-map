@@ -3,8 +3,8 @@ import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class AddCityDto {
   @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: "O nome da cidade é obrigatório" })
+  @IsString({ message: "O nome da cidade deve ser um texto válido" })
   readonly name: string;
 }
 

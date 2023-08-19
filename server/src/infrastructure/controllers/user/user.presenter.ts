@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserWithoutPassword } from '../../../domain/model/user';
+import { UserM } from '../../../domain/model/user';
 
 export class UserPresenter {
   @ApiProperty()
@@ -11,7 +11,7 @@ export class UserPresenter {
   @ApiProperty()
   updated_date: Date;
 
-  constructor(user: UserWithoutPassword) {
+  constructor(user: UserM) {
     this.id = user.id;
     this.username = user.username;
 

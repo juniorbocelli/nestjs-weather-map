@@ -95,10 +95,13 @@ export class UsecasesProxyModule {
             new UseCaseProxy(new DeleteCityUseCases(logger, cityRepository)),
         },
         {
-          inject: [LoggerService, OpenWeatherService, DatabaseCityRepository],
+          inject: [LoggerService, EnvironmentConfigService, OpenWeatherService, DatabaseCityRepository],
           provide: UsecasesProxyModule.GET_CITIES_INFORMATIONS_USECASES_PROXY,
-          useFactory: (logger: LoggerService, openWeather: OpenWeatherService, cityRepository: DatabaseCityRepository) =>
-            new UseCaseProxy(new GetCitiesInformationsUseCases(logger, openWeather, cityRepository)),
+          useFactory: (
+            logger: LoggerService,
+            config: EnvironmentConfigService,
+            openWeather: OpenWeatherService,
+            cityRepository: DatabaseCityRepository) => new UseCaseProxy(new GetCitiesInformationsUseCases(logger, config, openWeather, cityRepository),),
         },
       ],
       exports: [
