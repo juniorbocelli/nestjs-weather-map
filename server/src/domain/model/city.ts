@@ -2,7 +2,9 @@ import { UserM } from 'src/domain/model/user';
 
 export class CityM {
   private _id: number;
-  private _name: string;
+
+  private _apiId: number;
+
   private _user: UserM;
 
   private _createDate: Date;
@@ -15,12 +17,12 @@ export class CityM {
     this._id = id;
   };
 
-  public get name() {
-    return this._name;
+  public get apiId() {
+    return this._apiId;
   };
 
-  public set name(name: string) {
-    this._name = name;
+  public set apiId(apiId: number) {
+    this._apiId = apiId;
   };
 
   public get createDate() {

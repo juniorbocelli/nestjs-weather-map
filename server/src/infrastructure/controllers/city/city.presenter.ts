@@ -7,10 +7,10 @@ export class CityPresenter {
   id: number;
 
   @ApiProperty({ isArray: false })
-  name: string;
+  apiId: number;
 
   constructor(cityM: CityM) {
     this.id = cityM.id;
-    this.name = cityM.name;
+    this.apiId = cityM.apiId;
   };
 }

@@ -1,4 +1,4 @@
-import { CityM } from '../model/city';
+import { CityM } from 'src/domain/model/city';
 
 export interface CityRepository {
   findById(id: number): Promise<CityM>;

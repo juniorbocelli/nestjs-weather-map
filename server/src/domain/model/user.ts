@@ -1,9 +1,12 @@
-import { CityM } from './city';
+import { CityM } from 'src/domain/model/city';
 
 export class UserWithoutPassword {
   private _id: number;
   private _username: string;
   private _cities: CityM[];
+
+  private _lang: string = "pt_br";
+  private _units: string = "metric";
 
   private _createDate: Date;
   private _updatedDate: Date;
@@ -33,6 +36,22 @@ export class UserWithoutPassword {
 
   public set cities(cities: CityM[]) {
     this._cities = cities;
+  };
+
+  public get lang() {
+    return this._lang;
+  };
+
+  public set lang(lang: string) {
+    this._lang = lang;
+  }
+
+  public get units() {
+    return this._units;
+  };
+
+  public set units(units: string) {
+    this._units = units;
   };
 
   public get createDate() {

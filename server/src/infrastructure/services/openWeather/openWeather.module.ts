@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { HttpService, HttpModule } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 //
-import { OpenWeatherService } from './openWeather.service';
+import { OpenWeatherService } from 'src/infrastructure/services/openWeather/openWeather.service';
 
 @Module({
   imports: [HttpModule],

@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 // domain entities
-import { UserM } from '../../domain/model/user';
+import { UserM } from 'src/domain/model/user';
 import { CityM } from 'src/domain/model/city';
 // interfaces
-import { UserRepository } from '../../domain/repositories/userRepository.interface';
+import { UserRepository } from 'src/domain/repositories/userRepository.interface';
 // infrastructure entities
-import { User } from '../entities/user.entity';
-import { City } from '../entities/city.entity';
+import { User } from 'src/infrastructure/entities/user.entity';
+import { City } from 'src/infrastructure/entities/city.entity';
 
 @Injectable()
 export class DatabaseUserRepository implements UserRepository {
@@ -74,7 +74,7 @@ export class DatabaseUserRepository implements UserRepository {
         const cityM = new CityM();
 
         cityM.id = city.id;
-        cityM.name = city.name;
+        cityM.apiId = city.apiId;
         cityM.createDate = city.create_date;
 
         citiesM.push(cityM);
@@ -98,7 +98,7 @@ export class DatabaseUserRepository implements UserRepository {
       const city = new City();
 
       city.id = cityM.id;
-      city.name = cityM.name;
+      city.apiId = cityM.apiId;
       city.create_date = cityM.createDate;
 
       cities.push(city);

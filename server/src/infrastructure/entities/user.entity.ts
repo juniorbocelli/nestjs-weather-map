@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
   OneToMany
 } from 'typeorm';
-
-import { City } from './city.entity';
+//
+import { City } from 'src/infrastructure/entities/city.entity';
 
 @Entity()
 export class User {
@@ -21,6 +21,12 @@ export class User {
 
   @Column('text')
   password: string;
+
+  @Column('varchar', { length: 10, default: "pt_br" })
+  lang: string;
+
+  @Column('varchar', { length: 10, default: "metric" })
+  units: string;
 
   // https://typeorm.io/many-to-one-one-to-many-relations
   @OneToMany(() => City, (city) => city.user)

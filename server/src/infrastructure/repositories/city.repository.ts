@@ -49,7 +49,7 @@ export class DatabaseCityRepository implements CityRepository {
     const user: UserM = new UserM();
 
     city.id = cityEntity.id;
-    city.name = cityEntity.name;
+    city.apiId = cityEntity.apiId;
     city.createDate = cityEntity.create_date;
 
     if (typeof cityEntity.user !== 'undefined') {
@@ -68,7 +68,7 @@ export class DatabaseCityRepository implements CityRepository {
     userEntity.id = city.user.id;
 
     cityEntity.id = city.id;
-    cityEntity.name = city.name;
+    cityEntity.apiId = city.apiId;
     cityEntity.user = userEntity;
 
     return cityEntity;

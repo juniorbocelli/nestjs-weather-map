@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
 
 // interfaces
-import { IOpenWeather, IOpenWeatherPayload } from 'src/domain/adapters/openWeather.interface';
+import { IOpenWeather } from 'src/domain/adapters/openWeather.interface';
 // domain models
 import { OpenWeatherM } from 'src/domain/model/openWeather';
 
@@ -15,13 +15,24 @@ export class OpenWeatherService implements IOpenWeather {
 
   constructor(private readonly httpService: HttpService) { }
 
-  async getWeatherInfo(payload: IOpenWeatherPayload): Promise<OpenWeatherM> {
-    const lang = payload.lang || "pt_br";
-    const units = payload.units || "metric";
+  async getWeatherInfoByName(name: string, appid: string, lang?: string, units?: string): Promise<OpenWeatherM> {
+    const _lang = lang || "pt_br";
+    const _units = units || "metric";
 
     const response: {
       data: OpenWeatherM
-    } = await this.httpService.get(`${this.baseURL}?appid=${payload.appid}&q=${payload.cityName}&lang=${lang}&units=${units}`).toPromise();
+    } = await this.httpService.get(`${this.baseURL}?appid=${appid}&q=${name}&lang=${_lang}&units=${_units}`).toPromise();
+
+    return response.data;
+  };
+
+  async getWeatherInfoById(id: number, appid: string, lang?: string, units?: string): Promise<OpenWeatherM> {
+    const _lang = lang || "pt_br";
+    const _units = units || "metric";
+
+    const response: {
+      data: OpenWeatherM
+    } = await this.httpService.get(`${this.baseURL}?appid=${appid}&id=${id}&lang=${_lang}&units=${_units}`).toPromise();
 
     return response.data;
   };

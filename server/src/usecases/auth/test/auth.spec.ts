@@ -1,13 +1,13 @@
-import { IBcryptService } from '../../../domain/adapters/bcrypt.interface';
-import { IJwtService } from '../../../domain/adapters/jwt.interface';
-import { JWTConfig } from '../../../domain/config/jwt.interface';
-import { IException } from '../../../domain/exceptions/exceptions.interface';
-import { ILogger } from '../../../domain/logger/logger.interface';
-import { UserM } from '../../../domain/model/user';
-import { UserRepository } from '../../../domain/repositories/userRepository.interface';
-import { IsAuthenticatedUseCases } from '../isAuthenticated.usecases';
-import { LoginUseCases } from '../login.usecases';
-import { LogoutUseCases } from '../logout.usecases';
+import { IBcryptService } from 'src/domain/adapters/bcrypt.interface';
+import { IJwtService } from 'src/domain/adapters/jwt.interface';
+import { JWTConfig } from 'src/domain/config/jwt.interface';
+import { IException } from 'src/domain/exceptions/exceptions.interface';
+import { ILogger } from 'src/domain/logger/logger.interface';
+import { UserM } from 'src/domain/model/user';
+import { UserRepository } from 'src/domain/repositories/userRepository.interface';
+import { IsAuthenticatedUseCases } from 'src/usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from 'src/usecases/auth/login.usecases';
+import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
 
 describe('uses_cases/authentication', () => {
   let loginUseCases: LoginUseCases;

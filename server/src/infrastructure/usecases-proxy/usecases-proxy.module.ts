@@ -1,36 +1,36 @@
 import { DynamicModule, Module } from '@nestjs/common';
 // auth
-import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from '../../usecases/auth/login.usecases';
-import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
+import { IsAuthenticatedUseCases } from 'src/usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from 'src/usecases/auth/login.usecases';
+import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
 // user
-import { AddUserUseCases } from '../../usecases/user/addUser.usecases';
+import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
 // city
-import { AddCityUseCases } from '../../usecases/city/addCity.usecases';
-import { DeleteCityUseCases } from '../../usecases/city/deleteCity.usecases';
-import { GetCitiesInformationsUseCases } from '../../usecases/city/getCitiesInformations.usecases';
-
-import { ExceptionsModule } from '../exceptions/exceptions.module';
-import { LoggerModule } from '../logger/logger.module';
-import { LoggerService } from '../logger/logger.service';
+import { AddCityUseCases } from 'src/usecases/city/addCity.usecases';
+import { DeleteCityUseCases } from 'src/usecases/city/deleteCity.usecases';
+import { GetCitiesInformationsUseCases } from 'src/usecases/city/getCitiesInformations.usecases';
 
 // modules
-import { BcryptModule } from '../services/bcrypt/bcrypt.module';
-import { JwtModule } from '../services/jwt/jwt.module';
-import { RepositoriesModule } from '../repositories/repositories.module';
-import { OpenWeatherModule } from '../services/openWeather/openWeather.module';
+import { BcryptModule } from 'src/infrastructure/services/bcrypt/bcrypt.module';
+import { JwtModule } from 'src/infrastructure/services/jwt/jwt.module';
+import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
+import { OpenWeatherModule } from 'src/infrastructure/services/openWeather/openWeather.module';
+import { ExceptionsModule } from 'src/infrastructure/exceptions/exceptions.module';
+import { LoggerModule } from 'src/infrastructure/logger/logger.module';
 
 // services
-import { BcryptService } from '../services/bcrypt/bcrypt.service';
-import { JwtTokenService } from '../services/jwt/jwt.service';
-import { OpenWeatherService } from '../services/openWeather/openWeather.service';
+import { BcryptService } from 'src/infrastructure/services/bcrypt/bcrypt.service';
+import { JwtTokenService } from 'src/infrastructure/services/jwt/jwt.service';
+import { OpenWeatherService } from 'src/infrastructure/services/openWeather/openWeather.service';
+import { LoggerService } from 'src/infrastructure/logger/logger.service';
+import { ExceptionsService } from 'src/infrastructure/exceptions/exceptions.service';
 
-import { DatabaseUserRepository } from '../repositories/user.repository';
-import { DatabaseCityRepository } from '../repositories/city.repository';
+import { DatabaseUserRepository } from 'src/infrastructure/repositories/user.repository';
+import { DatabaseCityRepository } from 'src/infrastructure/repositories/city.repository';
 
-import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
-import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
-import { UseCaseProxy } from './usecases-proxy';
+import { EnvironmentConfigModule } from 'src/infrastructure/config/environment-config/environment-config.module';
+import { EnvironmentConfigService } from 'src/infrastructure/config/environment-config/environment-config.service';
+import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 
 @Module({
   imports: [LoggerModule, JwtModule, BcryptModule, OpenWeatherModule, EnvironmentConfigModule, RepositoriesModule, ExceptionsModule],
@@ -76,17 +76,22 @@ export class UsecasesProxyModule {
         },
         // user
         {
-          inject: [LoggerService, DatabaseUserRepository, BcryptService],
+          inject: [LoggerService, ExceptionsModule, DatabaseUserRepository, BcryptService],
           provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
-          useFactory: (logger: LoggerService, userRepository: DatabaseUserRepository, bcryptService: BcryptService) =>
-            new UseCaseProxy(new AddUserUseCases(logger, userRepository, bcryptService)),
+          useFactory: (logger: LoggerService, exceptionService: ExceptionsService, userRepository: DatabaseUserRepository, bcryptService: BcryptService) =>
+            new UseCaseProxy(new AddUserUseCases(logger, exceptionService, userRepository, bcryptService)),
         },
         // city
         {
-          inject: [LoggerService, DatabaseCityRepository],
+          inject: [LoggerService, ExceptionsModule, OpenWeatherService, EnvironmentConfigService, DatabaseCityRepository],
           provide: UsecasesProxyModule.POST_CITY_USECASES_PROXY,
-          useFactory: (logger: LoggerService, cityRepository: DatabaseCityRepository) =>
-            new UseCaseProxy(new AddCityUseCases(logger, cityRepository)),
+          useFactory: (
+            logger: LoggerService,
+            exceptionService: ExceptionsService,
+            openWeather: OpenWeatherService,
+            config: EnvironmentConfigService,
+            cityRepository: DatabaseCityRepository) =>
+            new UseCaseProxy(new AddCityUseCases(logger, exceptionService, config, openWeather, cityRepository)),
         },
         {
           inject: [LoggerService, DatabaseCityRepository],

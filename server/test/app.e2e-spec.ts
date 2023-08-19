@@ -2,13 +2,14 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { ExecutionContext, INestApplication } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
-import { UseCaseProxy } from '../src/infrastructure/usecases-proxy/usecases-proxy';
-import { UsecasesProxyModule } from '../src/infrastructure/usecases-proxy/usecases-proxy.module';
-import { LoginUseCases } from '../src/usecases/auth/login.usecases';
-import { IsAuthenticatedUseCases } from '../src/usecases/auth/isAuthenticated.usecases';
-import { AppModule } from '../src/app.module';
-import { JwtAuthGuard } from '../src/infrastructure/common/guards/jwtAuth.guard';
-import JwtRefreshGuard from '../src/infrastructure/common/guards/jwtRefresh.guard';
+//
+import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
+import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
+import { LoginUseCases } from 'src/usecases/auth/login.usecases';
+import { IsAuthenticatedUseCases } from 'src/usecases/auth/isAuthenticated.usecases';
+import { AppModule } from 'src/app.module';
+import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
+import JwtRefreshGuard from 'src/infrastructure/common/guards/jwtRefresh.guard';
 
 describe('infrastructure/controllers/auth', () => {
   let app: INestApplication;
@@ -20,13 +21,13 @@ describe('infrastructure/controllers/auth', () => {
     loginUseCase.getCookieWithJwtToken = jest.fn();
     loginUseCase.validateUserForLocalStragtegy = jest.fn();
     loginUseCase.getCookieWithJwtRefreshToken = jest.fn();
-    const loginUsecaseProxyService: UseCaseProxy<LoginUseCases> = {
+    const loginUseCaseProxyService: UseCaseProxy<LoginUseCases> = {
       getInstance: () => loginUseCase,
     } as UseCaseProxy<LoginUseCases>;
 
     isAuthenticatedUseCases = {} as IsAuthenticatedUseCases;
     isAuthenticatedUseCases.execute = jest.fn();
-    const isAuthUsecaseProxyService: UseCaseProxy<IsAuthenticatedUseCases> = {
+    const isAuthUseCaseProxyService: UseCaseProxy<IsAuthenticatedUseCases> = {
       getInstance: () => isAuthenticatedUseCases,
     } as UseCaseProxy<IsAuthenticatedUseCases>;
 
@@ -34,9 +35,9 @@ describe('infrastructure/controllers/auth', () => {
       imports: [AppModule],
     })
       .overrideProvider(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
-      .useValue(isAuthUsecaseProxyService)
+      .useValue(isAuthUseCaseProxyService)
       .overrideProvider(UsecasesProxyModule.LOGIN_USECASES_PROXY)
-      .useValue(loginUsecaseProxyService)
+      .useValue(loginUseCaseProxyService)
       .overrideGuard(JwtAuthGuard)
       .useValue({
         canActivate(context: ExecutionContext) {

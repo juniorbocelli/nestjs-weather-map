@@ -1,12 +1,6 @@
 import { OpenWeatherM } from 'src/domain/model/openWeather';
 
-export interface IOpenWeatherPayload {
-  cityName: string;
-  appid: string;
-  lang?: string;
-  units?: string;
-};
-
 export interface IOpenWeather {
-  getWeatherInfo(payload: IOpenWeatherPayload): Promise<OpenWeatherM>;
+  getWeatherInfoByName(name: string, appid: string, lang?: string, units?: string): Promise<OpenWeatherM>;
+  getWeatherInfoById(id: number, appid: string, lang?: string, units?: string): Promise<OpenWeatherM>;
 };
