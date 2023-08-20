@@ -1,5 +1,7 @@
-import axios from '../utils/axios';
-import * as Routes from '../routes/apis';
+import axios from 'src/utils/axios';
+import * as Routes from 'src/routes/apis';
+
+// ----------------------------------------------------------------------
 
 export function loginAPI(username: string, password: string) {
   return axios.post(Routes.API_AUTH_URL.login,

@@ -24,6 +24,8 @@ import {
   DialogMessageState,
 } from './types';
 
+// ----------------------------------------------------------------------
+
 const drawerWidth = 256;
 
 interface IDashboardProps {

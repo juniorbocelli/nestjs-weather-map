@@ -8,17 +8,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import EditIcon from '@mui/icons-material/Edit';
-import ContactsIcon from '@mui/icons-material/Contacts';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
-import QrCodeIcon from '@mui/icons-material/QrCode';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router-dom';
+
+//
 import { useAuth } from 'src/auth/context';
 import * as Paths from 'src/routes/paths';
+
+// ----------------------------------------------------------------------
 
 type Category = {
   id: string;
@@ -76,6 +72,8 @@ interface INavigatorProps extends DrawerProps {
   activeMenu: string;
 };
 
+// ----------------------------------------------------------------------
+
 export default function Navigator(props: INavigatorProps) {
   const { activeMenu, ...other } = props;
   const navigate = useNavigate();
@@ -85,7 +83,7 @@ export default function Navigator(props: INavigatorProps) {
     <>
       {
         categories.map(({ id, exclude, children }) => (
-          auth.loggedUser && exclude.indexOf(auth.loggedUser.type) === -1 ?
+          auth.loggedUser && exclude.indexOf(auth.loggedUser.type as number) === -1 ?
             <Box key={id} sx={{ bgcolor: '#101F33' }}>
               <ListItem sx={{ py: 2, px: 3 }}>
                 <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>

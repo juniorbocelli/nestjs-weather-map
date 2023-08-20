@@ -4,19 +4,23 @@ import {
   Box,
 } from '@mui/material';
 //
-import { Page as PageStrings } from 'src/shared/strings';
+import Strings from 'src/shared/strings';
+
+// ----------------------------------------------------------------------
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href={PageStrings.EXTERNAL_COPYRIGHT_FOOTER_LINK} target="_blank">
-        {PageStrings.COMPANY_NAME}
+      <Link color="inherit" href={Strings.Page.EXTERNAL_COPYRIGHT_FOOTER_LINK} target="_blank">
+        {Strings.Page.COMPANY_NAME}
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>
   );
-}
+};
+
+// ----------------------------------------------------------------------
 
 function Footer() {
   return (

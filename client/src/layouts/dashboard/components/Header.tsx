@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 // components
 import Account from './Account';
 
+// ----------------------------------------------------------------------
+
 interface HeaderProps {
   onDrawerToggle: () => void;
 

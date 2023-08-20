@@ -13,17 +13,22 @@ import Router from 'src/routes';
 import { defaultTheme } from 'src/settings/theme/defaultTheme';
 
 // contexts
-import { AuthContextProvider } from './auth/context';
+import { AuthContextProvider } from 'src/auth/context';
+import { FeedbackProvider, useFeedbackStates } from 'src/hooks/feedbacks';
 
 // ----------------------------------------------------------------------
 
 export default function App() {
+  const feedbacks = useFeedbackStates();
+
   return (
     <AuthContextProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <BrowserRouter>
           <ThemeProvider theme={defaultTheme}>
-            <Router />
+            <FeedbackProvider states={feedbacks}>
+              <Router />
+            </FeedbackProvider>
           </ThemeProvider>
         </BrowserRouter>
       </LocalizationProvider>

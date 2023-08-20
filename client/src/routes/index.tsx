@@ -1,6 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // hooks
-import useFeedback from 'src/hooks/feedbacks';
+import useFeedback from 'src/hooks/feedbacks/states';
 // auth
 import CheckSession from 'src/auth/CheckSession';
 // layouts
