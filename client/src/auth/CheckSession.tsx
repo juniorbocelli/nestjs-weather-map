@@ -1,10 +1,12 @@
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import BackDrop from "../../ui/components/BackDrop";
-import { useAuth } from "../auth/context";
-import * as Routes from "../../globals/routes";
+import { BackDrop } from 'src/components/back-drop';
+
+import * as Paths from 'src/routes/paths';
+//
+import { useAuth } from "./context";
 
 interface ICheckSessionProps {
   children: React.ReactElement;
@@ -18,13 +20,13 @@ const CheckSession: React.FC<ICheckSessionProps> = ({ children }) => {
     if (typeof loggedUser === "undefined" && !feedback.isQueryingAPI)
       checkSession();
     else if (loggedUser === null)
-      navigate(Routes.SCREEN_LOGIN, { replace: true });
-  }, [loggedUser, checkSession, feedback.isQueryingAPI]);
+      navigate(Paths.PATH_AUTH.login, { replace: true });
+  }, [loggedUser, checkSession, feedback.isQueryingAPI, navigate]);
 
   return (
-    <React.Fragment>
-      {typeof (loggedUser) === "undefined" ? <BackDrop open={true} /> : children}
-    </React.Fragment>
+    <>
+      {typeof (loggedUser) === "undefined" ? <BackDrop open /> : children}
+    </>
   );
 };
 

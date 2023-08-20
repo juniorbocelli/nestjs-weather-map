@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LoggedUser } from '../../globals/interfaces/user';
+import { IUser as LoggedUser } from 'src/@types/user';
 
 export type LoggedUserState = LoggedUser | null | undefined;
 export type IsCheckingSessionState = boolean;
@@ -30,9 +30,7 @@ export interface IAuthContext {
     setErrorMessage: React.Dispatch<React.SetStateAction<ErrorMessageState>>;
   },
 
-  login: (email: string, password: string) => void,
+  login: (username: string, password: string) => void,
   logout: () => void,
   checkSession: () => void;
-  changePassword: (password: string, newPassword: string) => void,
-  isSignedIn: () => boolean | undefined;
 };

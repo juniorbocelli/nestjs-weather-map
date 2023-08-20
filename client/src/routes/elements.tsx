@@ -1,12 +1,11 @@
 import { Suspense, lazy, ElementType } from 'react';
-// components
-import LoadingScreen from '../components/loading-screen';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: ElementType) => (props: any) =>
 (
-  <Suspense fallback={<LoadingScreen />}>
+  <Suspense fallback={<CircularProgress />}>
     <Component {...props} />
   </Suspense>
 );

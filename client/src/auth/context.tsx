@@ -9,47 +9,90 @@ interface Props {
   children?: React.ReactNode
 };
 
-export let globalAuth = {
+export const globalAuth = {
   logout: () => { },
 };
 
 export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const states = useStates();
-  const api = useAPIs(states);
+  const apis = useAPIs(states);
 
-  const isSignedIn = () => {
-    if (states.loggedUser === undefined)
-      return undefined;
+  globalAuth.logout = apis.logout;
 
-    return Boolean(states.loggedUser);
-  };
+  // states
+  const {
+    loggedUser,
+    setLoggedUser,
 
-  globalAuth = {
-    logout: api.logout,
-  };
+    isQueryingAPI,
+    setIsQueryingAPI,
+
+    errorMessage,
+    setErrorMessage,
+  } = states;
+  const _states = React.useMemo(() => (
+    {
+      loggedUser,
+      setLoggedUser,
+
+      isQueryingAPI,
+      setIsQueryingAPI,
+
+      errorMessage,
+      setErrorMessage,
+    }
+  ), [
+    loggedUser,
+    setLoggedUser,
+
+    isQueryingAPI,
+    setIsQueryingAPI,
+
+    errorMessage,
+    setErrorMessage,
+  ]);
+
+  // APIs
+  const {
+    login,
+    logout,
+    checkSession,
+  } = apis;
+  const _apis = React.useMemo(() => (
+    {
+      login,
+      logout,
+      checkSession,
+    }
+  ), [
+    login,
+    logout,
+    checkSession,
+  ]);
+
+  // contexts
+  const contexts = React.useMemo(() => ({
+    loggedUser: _states.loggedUser,
+
+    feedback: {
+      isQueryingAPI: _states.isQueryingAPI,
+      setIsQueryingAPI: _states.setIsQueryingAPI,
+
+      errorMessage: _states.errorMessage,
+      setErrorMessage: _states.setErrorMessage,
+    },
+    login: _apis.login,
+    logout: _apis.logout,
+
+    checkSession: _apis.checkSession,
+  }), [
+    _states,
+    _apis
+  ]);
 
   return (
     <AuthContext.Provider
-      value={
-        {
-          loggedUser: states.loggedUser,
-
-          feedback: {
-            isQueryingAPI: states.isQueryingAPI,
-            setIsQueryingAPI: states.setIsQueryingAPI,
-
-            errorMessage: states.errorMessage,
-            setErrorMessage: states.setErrorMessage,
-          },
-          login: api.login,
-          logout: api.logout,
-
-          checkSession: api.checkSession,
-          changePassword: api.changePassword,
-
-          isSignedIn: isSignedIn,
-        }
-      }
+      value={contexts}
     >
       {children}
     </AuthContext.Provider>

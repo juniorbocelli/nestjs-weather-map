@@ -3,13 +3,15 @@ import {
   Link,
   Box,
 } from '@mui/material';
+//
+import { Page as PageStrings } from 'src/shared/strings';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://ratel.in/" target="_blank">
-        Ratel Digital Innovation
+      <Link color="inherit" href={PageStrings.EXTERNAL_COPYRIGHT_FOOTER_LINK} target="_blank">
+        {PageStrings.COMPANY_NAME}
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>

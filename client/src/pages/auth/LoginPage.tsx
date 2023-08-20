@@ -1,18 +1,17 @@
-import { Helmet } from 'react-helmet-async';
+import React from 'react';
 // sections
-import Login from '../../sections/auth/Login';
-// import Login from '../../sections/auth/LoginAuth0';
+import Login from 'src/sections/auth/login/Login';
+//
+import Strings from 'src/shared/strings';
 
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
-  return (
-    <>
-      <Helmet>
-        <title> Login | Minimal UI</title>
-      </Helmet>
+  React.useEffect(() => {
+    document.title = `${Strings.Page.PAGE_TITLE_COMPANY_NAME}${Strings.Page.PAGE_TITLE_SEPARATOR}Login`;
+  }, []);
 
-      <Login />
-    </>
+  return (
+    <Login />
   );
 }

@@ -3,36 +3,30 @@ import {
   loginAPI,
   checkSessionAPI,
   logoutAPI,
-  changePasswordAPI,
-} from '../../services/auth';
-
+} from 'src/services/auth';
 // Types and interfaces
-import { IAuthStates, } from './types';
-import { User } from '../../globals/interfaces/user';
-
+import { IUser } from 'src/@types/user';
+import { IAuthStates, } from 'src/auth/types';
 // Others imports
-import LocalStorage from '../storage/LocalStorage';
+import LocalStorage from 'src/utils/LocalStorage';
 
-export interface IUseAPI {
+export interface IUseAuthAPI {
   login: (email: string, password: string) => void;
   logout: () => void;
   checkSession: () => void;
-  changePassword: (password: string, newPassword: string) => void;
 };
 
 // APIs =============================================================================================================================================
-function useAPIs(states: IAuthStates): IUseAPI {
-  const setLogged = (user: User) => {
-    if (typeof user.id !== "undefined" && typeof user.type !== "undefined" && typeof user.isActive !== "undefined" && typeof user.token !== "undefined") {
+function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
+  const setLogged = (user: IUser) => {
+    if (typeof user.id !== "undefined" && typeof user.type !== "undefined") {
       states.setLoggedUser({
         id: user.id,
-        email: user.email,
-        name: user.name,
-        type: user.type,
-        isActive: user.isActive,
+        username: user.username,
+        type: user.type || -1,
       });
 
-      LocalStorage.setToken(user.token || 'not_auth');
+      LocalStorage.setToken(user.username || 'not_auth');
     } else {
       throw new Error("Informações de login incompletas ou usuário desativado");
     };
@@ -40,7 +34,7 @@ function useAPIs(states: IAuthStates): IUseAPI {
 
   const setNotLogged = () => {
     states.setLoggedUser(null);
-    LocalStorage.setToken('not_auth');
+    LocalStorage.clearToken();
   };
 
   const login = (email: string, password: string) => {
@@ -59,7 +53,7 @@ function useAPIs(states: IAuthStates): IUseAPI {
 
         // Verify if user exist
         if (response.data.user !== null) {
-          const user: User = response.data.user;
+          const { user } = response.data;
 
           try {
             // Set loggedIn routines
@@ -105,7 +99,7 @@ function useAPIs(states: IAuthStates): IUseAPI {
 
     states.setLoggedUser(undefined);
 
-    checkSessionAPI(LocalStorage.getToken())
+    checkSessionAPI()
       .then(response => {
         console.log('response => checkSessionAPI', response);
         // Verify if exist errors
@@ -118,7 +112,7 @@ function useAPIs(states: IAuthStates): IUseAPI {
 
         // Verify if user exist
         if (response.data.user !== null) {
-          const user: User = response.data.user;
+          const { user } = response.data;
 
           // Set loggedIn routines
           setLogged(user);
@@ -133,39 +127,11 @@ function useAPIs(states: IAuthStates): IUseAPI {
       });
   };
 
-  const changePassword = (password: string, newPassword: string) => {
-    changePasswordAPI(password, newPassword)
-      .then(async response => {
-        console.log('response => changePasswordAPI', response);
-        // Verify if exist errors
-        if (typeof (response.data.error) !== 'undefined')
-          throw new Error(response.data.error);
-
-        // Verify if user exist
-        if (response.data.user !== null) {
-          const user: User = response.data.user;
-
-          try {
-            // Set loggedIn routines
-            setLogged(user);
-
-          } catch (error) {
-            setNotLogged();
-            throw new Error(error as string);
-          };
-        };
-      })
-      .catch(error => {
-        throw new Error(error.message);
-      });
-  };
-
   return {
     login,
     logout,
     checkSession,
-    changePassword,
   };
 };
 
-export default useAPIs;
+export default useAuthAPIs;
