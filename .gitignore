@@ -1,10 +1,35 @@
 # VS Code
 .vscode/
 
-# Server
-server/node_modules
+# All
+node_modules
+
+### Server
 server/test/database
 server/dist
 server/coverage
 server/coverage-e2e
 server/test/coverage
+
+### Client
+client/.pnp
+client/.pnp.js
+
+# testing
+client/coverage
+
+# production
+client/build
+
+# misc
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+client/.eslintcache
