@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { BackDrop } from 'src/components/back-drop';
 import { AlertDialog } from 'src/components/alert-dialog';
 // contexts
-import { useAuth } from 'src/auth/context';
+import { useAuthContext } from 'src/auth/context';
 //
 import Strings from 'src/shared/strings';
 import * as Paths from 'src/routes/paths';
@@ -52,7 +52,7 @@ const Dashboard: React.FC<IDashboardProps> = ({ children, fatherStates, title, a
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
-  const auth = useAuth();
+  const auth = useAuthContext();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

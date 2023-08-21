@@ -8,7 +8,7 @@ import {
   ErrorMessageState,
 } from './types';
 
-function useStates(): IAuthStates {
+function useAuthStates(): IAuthStates {
 
   const [loggedUser, setLoggedUser] = React.useState<LoggedUserState>(undefined);
 
@@ -26,4 +26,4 @@ function useStates(): IAuthStates {
   };
 };
 
-export default useStates;
+export default useAuthStates;

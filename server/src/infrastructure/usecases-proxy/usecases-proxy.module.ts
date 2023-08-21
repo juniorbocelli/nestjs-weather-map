@@ -33,7 +33,7 @@ import { EnvironmentConfigService } from 'src/infrastructure/config/environment-
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 
 @Module({
-  imports: [LoggerModule, JwtModule, BcryptModule, OpenWeatherModule, EnvironmentConfigModule, RepositoriesModule, ExceptionsModule],
+  imports: [LoggerModule, ExceptionsModule, JwtModule, BcryptModule, OpenWeatherModule, EnvironmentConfigModule, RepositoriesModule],
 })
 export class UsecasesProxyModule {
   // Auth
@@ -42,12 +42,12 @@ export class UsecasesProxyModule {
   static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy';
 
   // User
-  static POST_USER_USECASES_PROXY = 'postUserUsecasesProxy';
+  static POST_USER_USECASES_PROXY = 'PostUserUseCasesProxy';
 
   // City
-  static POST_CITY_USECASES_PROXY = 'postCityUsecasesProxy';
-  static DELETE_CITY_USECASES_PROXY = 'deleteCityUsecasesProxy';
-  static GET_CITIES_INFORMATIONS_USECASES_PROXY = 'getCitiesInformationsUsecasesProxy';
+  static POST_CITY_USECASES_PROXY = 'PostCityUseCasesProxy';
+  static DELETE_CITY_USECASES_PROXY = 'DeleteCityUseCasesProxy';
+  static GET_CITIES_INFORMATIONS_USECASES_PROXY = 'GetCitiesInformationsUseCasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -76,14 +76,18 @@ export class UsecasesProxyModule {
         },
         // user
         {
-          inject: [LoggerService, ExceptionsModule, DatabaseUserRepository, BcryptService],
+          inject: [LoggerService, ExceptionsService, DatabaseUserRepository, BcryptService],
           provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
-          useFactory: (logger: LoggerService, exceptionService: ExceptionsService, userRepository: DatabaseUserRepository, bcryptService: BcryptService) =>
+          useFactory: (
+            logger: LoggerService,
+            exceptionService: ExceptionsService,
+            userRepository: DatabaseUserRepository,
+            bcryptService: BcryptService) =>
             new UseCaseProxy(new AddUserUseCases(logger, exceptionService, userRepository, bcryptService)),
         },
         // city
         {
-          inject: [LoggerService, ExceptionsModule, OpenWeatherService, EnvironmentConfigService, DatabaseCityRepository],
+          inject: [LoggerService, ExceptionsService, OpenWeatherService, EnvironmentConfigService, DatabaseCityRepository],
           provide: UsecasesProxyModule.POST_CITY_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,

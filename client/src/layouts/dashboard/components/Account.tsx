@@ -13,13 +13,13 @@ import Logout from '@mui/icons-material/Logout';
 import KeyIcon from '@mui/icons-material/Key';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { useAuth } from 'src/auth/context';
+import { useAuthContext } from 'src/auth/context';
 
 // ----------------------------------------------------------------------
 
 const Account: React.FC<React.PropsWithChildren> = () => {
   const theme = useTheme();
-  const auth = useAuth();
+  const auth = useAuthContext();
   const [openModal, setOpenModal] = React.useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

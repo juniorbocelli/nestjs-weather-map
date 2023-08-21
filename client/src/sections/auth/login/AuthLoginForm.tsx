@@ -16,7 +16,7 @@ import { useTheme } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 
 // auth
-import { useAuth } from 'src/auth/context';
+import { useAuthContext } from 'src/auth/context';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
@@ -34,7 +34,7 @@ type FormValuesProps = {
 export default function AuthLoginForm() {
   const theme = useTheme();
 
-  const { login } = useAuth();
+  const { login } = useAuthContext();
 
   const [showPassword, setShowPassword] = useState(false);
 

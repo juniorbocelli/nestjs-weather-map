@@ -6,6 +6,7 @@ node_modules
 
 ### Server
 server/test/database
+server/database
 server/dist
 server/coverage
 server/coverage-e2e

@@ -94,6 +94,7 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
     // If not exist token, client is not logged
     if (LocalStorage.getToken() === LocalStorage.getDefaultToken()) {
       states.setLoggedUser(null);
+
       return;
     };
 

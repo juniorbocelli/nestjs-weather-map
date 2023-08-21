@@ -11,7 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 
 //
-import { useAuth } from 'src/auth/context';
+import { useAuthContext } from 'src/auth/context';
 import * as Paths from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
@@ -77,7 +77,7 @@ interface INavigatorProps extends DrawerProps {
 export default function Navigator(props: INavigatorProps) {
   const { activeMenu, ...other } = props;
   const navigate = useNavigate();
-  const auth = useAuth();
+  const auth = useAuthContext();
 
   const Submenus = React.useMemo(() => (
     <>

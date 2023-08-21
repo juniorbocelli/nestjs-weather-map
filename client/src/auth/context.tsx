@@ -1,7 +1,9 @@
 import React from 'react';
-import useAPIs from './apis';
-import useStates from './states';
-import { IAuthContext } from './types';
+
+//
+import useAuthAPIs from 'src/auth/apis';
+import useAuthStates from 'src/auth/states';
+import { IAuthContext } from 'src/auth/types';
 
 const AuthContext = React.createContext({} as IAuthContext);
 
@@ -14,8 +16,8 @@ export const globalAuth = {
 };
 
 export const AuthContextProvider: React.FC<Props> = ({ children }) => {
-  const states = useStates();
-  const apis = useAPIs(states);
+  const states = useAuthStates();
+  const apis = useAuthAPIs(states);
 
   globalAuth.logout = apis.logout;
 
@@ -99,7 +101,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-export function useAuth() {
+export function useAuthContext() {
   const context = React.useContext(AuthContext);
+
   return context;
 };

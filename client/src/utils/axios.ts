@@ -1,9 +1,8 @@
 import axios from 'axios';
 // config
 import { SERVER_HOST_API, SERVER_HOST_PORT } from 'src/config-global';
-// functions to logout
-import { globalAuth } from 'src/auth/context';
 import LocalStorage from 'src/utils/LocalStorage';
+import { API_AUTH_URL } from 'src/routes/apis';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +24,7 @@ apiAxios.interceptors.response.use(
   },
   (error) => {
     if (process.env.NODE_ENV === 'development')
-      console.error('Error:', error);
+      console.error('Error Interceptor:', error);
 
     if (typeof error.data === "undefined")
       throw new Error("Erro em chamada API");
@@ -33,13 +32,13 @@ apiAxios.interceptors.response.use(
     if (typeof error.response === "undefined")
       throw new Error("Erro em chamada API");
 
-    if (error.response.status === 401 || error.response.status === 403)
-      if (process.env.NODE_ENV === 'development') {
-        // Logoout client
-        globalAuth.logout();
-        LocalStorage.clearToken();
-        throw new Error("Cliente foi deslogado");
-      };
+    if (error.response.status === 401 || error.response.status === 403) {
+      // Logoout client
+      apiAxios.get(API_AUTH_URL.logout);
+      LocalStorage.clearToken();
+
+      throw new Error("Cliente foi deslogado");
+    };
 
     return error;
   }
