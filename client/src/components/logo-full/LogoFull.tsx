@@ -17,7 +17,7 @@ const LogoFull = forwardRef<HTMLDivElement, LogoProps>(
     const logo = (
       <Box
         component="img"
-        src="/logo/logo_full.svg"
+        src="/logo/logo_full.jpg"
         sx={{ cursor: 'pointer', ...sx }}
 
         width={width}
