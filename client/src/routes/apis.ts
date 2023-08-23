@@ -18,3 +18,14 @@ const USER_ROOT = `${SERVER_HOST_API_ROOT}/user`;
 export const API_USER_URL = {
   newUser: `/${USER_ROOT}`,
 };
+
+
+/**
+ * CITY
+ */
+const CITY_ROOT = `${SERVER_HOST_API_ROOT}/city`;
+export const API_CITY_URL = {
+  newCity: `/${CITY_ROOT}`,
+  getAllCities: `/${CITY_ROOT}/city-informations`,
+  deleteCity: `/${CITY_ROOT}`,
+};

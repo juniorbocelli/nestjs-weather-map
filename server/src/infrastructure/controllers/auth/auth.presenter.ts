@@ -28,8 +28,12 @@ export class AuthPresenter {
   @ApiProperty()
   username: string;
 
+  @ApiProperty()
+  refreshToken: string;
+
   constructor(userM: UserM) {
     this.id = userM.id;
     this.username = userM.username;
+    this.refreshToken = userM.hashRefreshToken;
   };
 };

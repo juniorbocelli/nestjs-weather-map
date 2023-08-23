@@ -21,7 +21,7 @@ import { LoadingButton } from '@mui/lab';
 // auth
 import { useFeedbackContext } from 'src/hooks/feedbacks';
 // components
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { AlertDialog } from 'src/components/alert-dialog';
 // hooks

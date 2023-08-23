@@ -5,12 +5,12 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
+  Typography,
 
   useTheme,
 } from '@mui/material';
 // icons
 import Logout from '@mui/icons-material/Logout';
-import KeyIcon from '@mui/icons-material/Key';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { useAuthContext } from 'src/auth/context';
@@ -20,8 +20,6 @@ import { useAuthContext } from 'src/auth/context';
 const Account: React.FC<React.PropsWithChildren> = () => {
   const theme = useTheme();
   const auth = useAuthContext();
-  const [openModal, setOpenModal] = React.useState<boolean>(false);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -90,11 +88,10 @@ const Account: React.FC<React.PropsWithChildren> = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={() => setOpenModal(true)}>
-          <ListItemIcon>
-            <KeyIcon fontSize="small" />
-          </ListItemIcon>
-          Mudar senha
+        <MenuItem>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            {auth.loggedUser?.username}
+          </Typography>
         </MenuItem>
 
         <MenuItem onClick={() => auth.logout()}>

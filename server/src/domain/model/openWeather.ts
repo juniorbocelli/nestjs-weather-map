@@ -16,4 +16,6 @@ export interface OpenWeatherM {
     description: string;
     icon: string;
   };
-}
+
+  name: string;
+};

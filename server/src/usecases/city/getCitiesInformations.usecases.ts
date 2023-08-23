@@ -21,7 +21,6 @@ export class GetCitiesInformationsUseCases {
 
     const citiesFromUser = await this.cityRepository.findAllFromUser(userId);
 
-    // { appid: this.config.getOpenWeatherKey(), cityName: citiesFromUser[i].name, lang: lang, units: units })
     for (let i = 0; i < citiesFromUser.length; i++) {
       promises.push(this.openWeather.getWeatherInfoById(citiesFromUser[i].id, this.config.getOpenWeatherKey(), lang, units));
     };
@@ -31,7 +30,8 @@ export class GetCitiesInformationsUseCases {
       informations.push({
         id: r.id,
         main: r.main,
-        weather: r.weather[0]
+        weather: r.weather[0],
+        name: r.name
       });
     });
 

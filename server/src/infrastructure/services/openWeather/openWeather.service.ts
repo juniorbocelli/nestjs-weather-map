@@ -19,6 +19,8 @@ export class OpenWeatherService implements IOpenWeather {
     const _lang = lang || "pt_br";
     const _units = units || "metric";
 
+    console.log('`${this.baseURL}?appid=${appid}&q=${name}&lang=${_lang}&units=${_units}`', `${this.baseURL}?appid=${appid}&q=${name}&lang=${_lang}&units=${_units}`);
+
     const response: {
       data: OpenWeatherM
     } = await this.httpService.get(`${this.baseURL}?appid=${appid}&q=${name}&lang=${_lang}&units=${_units}`).toPromise();
@@ -29,6 +31,8 @@ export class OpenWeatherService implements IOpenWeather {
   async getWeatherInfoById(id: number, appid: string, lang?: string, units?: string): Promise<OpenWeatherM> {
     const _lang = lang || "pt_br";
     const _units = units || "metric";
+
+    console.log('`${this.baseURL}?appid=${appid}&id=${id}&lang=${_lang}&units=${_units}`', `${this.baseURL}?appid=${appid}&id=${id}&lang=${_lang}&units=${_units}`);
 
     const response: {
       data: OpenWeatherM

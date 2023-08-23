@@ -23,7 +23,7 @@ export class AddCityUseCases {
 
     if (toString.call(idOrError) === "[object String]") {
       this.logger.error('addCityUseCases execute', `Error: ${idOrError}`);
-      this.exceptionService.badRequestException({ code_error: 400, message: idOrError as string });
+      this.exceptionService.badRequestException({ code_error: 400, message: "Cidade não encontrada" });
     };
 
     // Testing if city already added

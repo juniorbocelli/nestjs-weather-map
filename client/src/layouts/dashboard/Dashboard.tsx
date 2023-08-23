@@ -5,8 +5,7 @@ import {
   useMediaQuery,
   CssBaseline,
 } from '@mui/material';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 
 // components
 import { BackDrop } from 'src/components/back-drop';
@@ -32,15 +31,13 @@ interface IDashboardProps {
 
   pageTitle?: string;
 
-  children?: React.ReactNode;
-
   // permissions
   exludeList?: number[];
 };
 
 // ----------------------------------------------------------------------
 
-const Dashboard: React.FC<IDashboardProps> = ({ children, title, activeMenu, pageTitle, exludeList }) => {
+const Dashboard: React.FC<IDashboardProps> = ({ title, activeMenu, pageTitle, exludeList }) => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
@@ -128,7 +125,7 @@ const Dashboard: React.FC<IDashboardProps> = ({ children, title, activeMenu, pag
         <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
           {Feedbacks}
 
-          {children}
+          <Outlet />
 
         </Box>
 

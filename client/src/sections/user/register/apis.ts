@@ -21,6 +21,9 @@ export function useRegisterAPIs(states: IUseRegisterStates): IUseRegisterAPIs {
 
     createUserAPI(username, password)
       .then(response => {
+        if (process.env.NODE_ENV === 'development')
+          console.log('Response -> createUserAPI', response);
+
         states.setIsSuccess(true);
       })
       .catch((error: AxiosError<IAxiosExceptionData>) => {

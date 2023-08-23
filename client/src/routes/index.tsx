@@ -2,7 +2,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // auth
 import CheckSession from 'src/auth/CheckSession';
 // layouts
-import { Dashboard } from 'src/layouts/dashboard';
+import { DashboardLayout } from 'src/layouts/dashboard';
 // config
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 // paths
@@ -11,7 +11,12 @@ import * as Paths from 'src/routes/paths';
 import {
   // Auth
   LoginPage,
+
+  // User
   RegisterPage,
+
+  // City
+  ManageCitiesPage,
 
 } from 'src/routes/elements';
 
@@ -52,7 +57,7 @@ export default function Router() {
       path: Paths.PATH_DASHBOARD.root,
       element: (
         <CheckSession>
-          <Dashboard
+          <DashboardLayout
             activeMenu='dashboard'
             title='Cidades'
 
@@ -62,8 +67,8 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-        { path: Paths.PATH_DASHBOARD.home, element: <><h1>Olá</h1></> },
+        { path: Paths.PATH_DASHBOARD.home, element: <ManageCitiesPage /> },
       ],
     },
   ])
-}
+};

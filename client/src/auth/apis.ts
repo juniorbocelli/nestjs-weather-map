@@ -27,10 +27,15 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
       states.setLoggedUser({
         id: user.id,
         username: user.username,
+        refreshToken: user.refreshToken,
+
+        // TODO save and recovery this data from database
         type: user.type || -1,
+        lang: 'pt_br',
+        units: 'metric',
       });
 
-      LocalStorage.setToken(user.username || 'not_auth');
+      LocalStorage.setToken(user.refreshToken || 'not_auth');
     } else {
       throw new Error("Informações de login incompletas ou usuário desativado");
     };

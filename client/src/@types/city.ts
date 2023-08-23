@@ -16,4 +16,11 @@ export interface ICity {
     description: string;
     icon: string;
   };
+
+  name: string;
+};
+
+export interface ICityCreateResponse {
+  id: number;
+  apiId: number;
 };

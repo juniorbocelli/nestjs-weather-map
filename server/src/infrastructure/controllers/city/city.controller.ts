@@ -68,6 +68,6 @@ export class CityController {
     const loggedUser = await this.isAuthUseCaseProxy.getInstance().execute(request.user.username);
     const informations = await this.getCitiesInformationsUseCaseProxy.getInstance().execute(loggedUser.id, lang, units);
 
-    return res.josn(informations);
+    return res.json(informations);
   };
 }
