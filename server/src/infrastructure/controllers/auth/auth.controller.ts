@@ -59,7 +59,7 @@ export class AuthController {
     const cookie = await this.logoutUseCaseProxy.getInstance().execute();
     request.res.setHeader('Set-Cookie', cookie);
 
-    return 'Logout feito com sucesso';
+    return res.json({ message: 'Logout feito com sucesso' });
   };
 
   @Get('is-authenticated')
