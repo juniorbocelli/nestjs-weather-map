@@ -1,8 +1,10 @@
 import { ConnectionOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 
-if (process.env.NODE_ENV === 'local') {
-  dotenv.config({ path: './env/local.env' });
+import { getEnvironmentExecution, getEnvironmentFile } from 'src/infrastructure/common/utils/environment.util';
+
+if (getEnvironmentExecution() === 'local') {
+  dotenv.config({ path: getEnvironmentFile() });
 };
 
 const config: ConnectionOptions = {
@@ -21,9 +23,6 @@ const config: ConnectionOptions = {
   cli: {
     migrationsDir: 'database/migrations',
   },
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
 };
 
 export default config;

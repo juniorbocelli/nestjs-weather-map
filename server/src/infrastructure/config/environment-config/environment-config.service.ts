@@ -4,10 +4,20 @@ import { ConfigService } from '@nestjs/config';
 import { DatabaseConfig } from 'src/domain/config/database.interface';
 import { JWTConfig } from 'src/domain/config/jwt.interface';
 import { OpenWeatherAPI } from 'src/domain/config/openWeatherApi.interface';
+import { CORSConfig } from 'src/domain/config/cors.interface';
 
 @Injectable()
-export class EnvironmentConfigService implements DatabaseConfig, JWTConfig, OpenWeatherAPI {
+export class EnvironmentConfigService implements DatabaseConfig, JWTConfig, OpenWeatherAPI, CORSConfig {
   constructor(private configService: ConfigService) { }
+
+  // CORS
+  getCorsOriginUrl(): string {
+    return this.configService.get<string>('CORS_ORIGIN_URL');
+  };
+
+  getCorsOriginPort(): number {
+    return this.configService.get<number>('CORS_ORIGIN_PORT');
+  }
 
   // Open Weather API
   getOpenWeatherKey(): string {

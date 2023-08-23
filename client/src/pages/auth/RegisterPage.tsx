@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // sections
-import Login from 'src/sections/auth/login/Login';
+import Register from 'src/sections/user/register/Register';
 // contexts
 import { useAuthContext } from 'src/auth';
 //
@@ -10,13 +10,12 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const navigate = useNavigate();
   const { loggedUser } = useAuthContext();
 
-  // Effects
   React.useEffect(() => {
-    document.title = `${Strings.Page.PAGE_TITLE_COMPANY_NAME}${Strings.Page.PAGE_TITLE_SEPARATOR}Login`;
+    document.title = `${Strings.Page.PAGE_TITLE_COMPANY_NAME}${Strings.Page.PAGE_TITLE_SEPARATOR}Cadastro`;
   }, []);
 
   React.useEffect(() => {
@@ -25,6 +24,6 @@ export default function LoginPage() {
   }, [loggedUser, navigate]);
 
   return (
-    <Login />
+    <Register />
   );
 }

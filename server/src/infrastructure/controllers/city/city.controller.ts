@@ -6,6 +6,7 @@ import {
   Delete,
   Get,
   Req,
+  Res,
   Query,
   ParseIntPipe,
   UseGuards
@@ -44,12 +45,12 @@ export class CityController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiResponseType(CityPresenter, false)
-  async addCity(@Body() addCityDto: AddCityDto, @Req() request: any) {
+  async addCity(@Body() addCityDto: AddCityDto, @Req() request: any, @Res() res: any) {
     const { name } = addCityDto;
     const loggedUser = await this.isAuthUseCaseProxy.getInstance().execute(request.user.username);
     const cityCreated = await this.addCityUseCaseProxy.getInstance().execute(name, loggedUser.id);
 
-    return new CityPresenter(cityCreated);
+    return res.json(new CityPresenter(cityCreated));
   };
 
   @Delete()
@@ -63,10 +64,10 @@ export class CityController {
 
   @Get('city-informations')
   @UseGuards(JwtAuthGuard)
-  async getCitiesInformations(@Query('lang') lang: string, @Query('units') units: string, @Req() request: any) {
+  async getCitiesInformations(@Query('lang') lang: string, @Query('units') units: string, @Req() request: any, @Res() res: any) {
     const loggedUser = await this.isAuthUseCaseProxy.getInstance().execute(request.user.username);
     const informations = await this.getCitiesInformationsUseCaseProxy.getInstance().execute(loggedUser.id, lang, units);
 
-    return informations;
+    return res.josn(informations);
   };
 }

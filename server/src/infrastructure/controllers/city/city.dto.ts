@@ -5,7 +5,6 @@ export class AddCityDto {
   @ApiProperty({ required: true })
   @IsNotEmpty({ message: "O nome da cidade é obrigatório" })
   @IsString({ message: "O nome da cidade deve ser um texto válido" })
-  @IsAlpha("pt_br", { message: "O nome da cidade deve ser um texto válido" })
   readonly name: string;
 }
 

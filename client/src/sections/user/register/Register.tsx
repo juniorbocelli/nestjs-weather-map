@@ -11,11 +11,11 @@ import { AuthLayout } from 'src/layouts/auth';
 // components
 import LogoFull from 'src/components/logo-full';
 //
-import AuthLoginForm from 'src/sections/auth/login/AuthLoginForm';
+import AuthRegisterForm from 'src/sections/user/register/AuthRegisterForm';
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function Register() {
   const theme = useTheme();
 
   return (
@@ -27,12 +27,12 @@ export default function Login() {
 
         sx={{ color: theme.palette.grey[800], pt: 1, pb: 3 }}
       >
-        Login
+        Cadastro
       </Typography>
 
       <LogoFull sx={{ px: theme.spacing(3), mb: theme.spacing(5) }} />
 
-      <AuthLoginForm />
+      <AuthRegisterForm />
 
     </AuthLayout >
   );

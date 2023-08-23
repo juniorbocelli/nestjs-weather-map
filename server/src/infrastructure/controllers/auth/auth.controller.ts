@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Inject, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Patch, Req, Request, UseGuards, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+//
 import { AuthLoginDto } from 'src/infrastructure/controllers/auth/auth.dto.class';
-import { IsAuthPresenter } from 'src/infrastructure/controllers/auth/auth.presenter';
+import { IsAuthPresenter, AuthPresenter } from 'src/infrastructure/controllers/auth/auth.presenter';
 
 import JwtRefreshGuard from 'src/infrastructure/common/guards/jwtRefresh.guard';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
@@ -39,20 +40,25 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
-  async login(@Body() auth: AuthLoginDto, @Request() request: any) {
+  @ApiResponseType(AuthPresenter, false)
+  async login(@Body() auth: AuthLoginDto, @Request() request: any, @Res() res: any) {
     const accessTokenCookie = await this.loginUseCaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUseCaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
     request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
 
-    return 'Login feito com sucesso';
+    const loggedUser = await this.loginUseCaseProxy.getInstance().validateUserForJWTStragtegy(auth.username);
+    const response = new AuthPresenter(loggedUser);
+
+    return res.json(response);
   };
 
-  @Post('logout')
+  @Patch('logout')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ description: 'logout' })
-  async logout(@Request() request: any) {
+  async logout(@Request() request: any, @Res() res: any) {
     const cookie = await this.logoutUseCaseProxy.getInstance().execute();
     request.res.setHeader('Set-Cookie', cookie);
+
     return 'Logout feito com sucesso';
   };
 
@@ -61,12 +67,11 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ description: 'is-authenticated' })
   @ApiResponseType(IsAuthPresenter, false)
-  async isAuthenticated(@Req() request: any) {
+  async isAuthenticated(@Req() request: any, @Res() res: any) {
     const user = await this.isAuthUseCaseProxy.getInstance().execute(request.user.username);
-    const response = new IsAuthPresenter();
-    response.username = user.username;
+    const response = new IsAuthPresenter(user);
 
-    return response;
+    return res.json(response);
   };
 
   @Get('refresh')

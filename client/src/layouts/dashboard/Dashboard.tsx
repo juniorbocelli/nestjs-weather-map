@@ -1,16 +1,19 @@
 import * as React from 'react';
 import {
+  Box,
   useTheme,
+  useMediaQuery,
+  CssBaseline,
 } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
+
 import { useNavigate } from 'react-router-dom';
+
 // components
 import { BackDrop } from 'src/components/back-drop';
 import { AlertDialog } from 'src/components/alert-dialog';
 // contexts
 import { useAuthContext } from 'src/auth/context';
+import { useFeedbackContext } from 'src/hooks/feedbacks';
 //
 import Strings from 'src/shared/strings';
 import * as Paths from 'src/routes/paths';
@@ -18,11 +21,6 @@ import * as Paths from 'src/routes/paths';
 import Navigator from './components/Navigator';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
-import {
-  IsQueryingAPIState,
-  DialogMessageState,
-} from './types';
 
 // ----------------------------------------------------------------------
 
@@ -36,23 +34,20 @@ interface IDashboardProps {
 
   children?: React.ReactNode;
 
-  fatherStates?: {
-    isQueryingAPI?: IsQueryingAPIState;
-
-    dialogMessage?: DialogMessageState;
-    setDialogMessage?: React.Dispatch<React.SetStateAction<DialogMessageState>>;
-  };
-
   // permissions
   exludeList?: number[];
 };
 
-const Dashboard: React.FC<IDashboardProps> = ({ children, fatherStates, title, activeMenu, pageTitle, exludeList }) => {
+// ----------------------------------------------------------------------
+
+const Dashboard: React.FC<IDashboardProps> = ({ children, title, activeMenu, pageTitle, exludeList }) => {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
+
   const auth = useAuthContext();
+  const { states: fatherStates } = useFeedbackContext();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -71,14 +66,14 @@ const Dashboard: React.FC<IDashboardProps> = ({ children, fatherStates, title, a
     if (typeof exludeList !== "undefined")
       if (auth.loggedUser)
         if (exludeList.indexOf(auth.loggedUser.type as number) !== -1)
-          navigate(Paths.PATH_DASHBOARD.home)
+          navigate(Paths.PATH_DASHBOARD.home);
   }, [auth.loggedUser, navigate, exludeList]);
 
   // Memos
   const Feedbacks = React.useMemo(() => {
     const _onClose = () => {
       if (typeof (fatherStates?.setDialogMessage) !== "undefined")
-        fatherStates.setDialogMessage(undefined);
+        fatherStates.setDialogMessage(null);
     };
 
     return (
@@ -91,7 +86,7 @@ const Dashboard: React.FC<IDashboardProps> = ({ children, fatherStates, title, a
         }
 
         {
-          typeof (fatherStates) !== 'undefined' && typeof (fatherStates.dialogMessage) !== 'undefined' ?
+          typeof (fatherStates) !== 'undefined' && fatherStates.dialogMessage !== null ?
             <AlertDialog
               title={fatherStates.dialogMessage.title}
               content={fatherStates.dialogMessage.message}

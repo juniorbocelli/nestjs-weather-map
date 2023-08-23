@@ -39,13 +39,15 @@ export class LoginUseCases {
     const user = await this.userRepository.getUserByUsername(username);
     if (!user) {
       return null;
-    }
+    };
+
     const match = await this.bcryptService.compare(pass, user.password);
     if (user && match) {
       await this.updateLoginTime(user.username);
       const { password, ...result } = user;
       return result;
-    }
+    };
+
     return null;
   };
 

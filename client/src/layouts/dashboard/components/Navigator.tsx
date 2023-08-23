@@ -31,6 +31,7 @@ type Category = {
 };
 
 const categories: Category[] = [
+  // Example
   // {
   //   id: 'Usuários',
   //   exclude: [2, 3],
@@ -50,7 +51,6 @@ const categories: Category[] = [
   //   ],
   // },
   // {
-
 ];
 
 const item = {
@@ -114,7 +114,7 @@ export default function Navigator(props: INavigatorProps) {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 20, color: '#fff' }}>
-          Relatórios Gerenciais
+          NestJs OpenWeather
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory, cursor: 'pointer' }} selected={activeMenu === 'dashboard'} onClick={() => navigate(Paths.PATH_DASHBOARD.home)}>
           <ListItemIcon>

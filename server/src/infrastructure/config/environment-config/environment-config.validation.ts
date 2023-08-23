@@ -1,16 +1,18 @@
 import { plainToInstance } from 'class-transformer';
 import { IsBoolean, IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
 
-enum Environment {
-  Development = 'development',
-  Production = 'production',
-  Local = 'local',
-  Test = 'test',
-}
+//
+import { Environment } from 'src/infrastructure/common/enums/environment.enum';
 
 class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV: Environment;
+
+  // CORS
+  @IsString()
+  CORS_ORIGIN_URL: string;
+  @IsNumber()
+  CORS_ORIGIN_PORT: number;
 
   // Open Weather API
   @IsString()

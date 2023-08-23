@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Res, Req } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 // usecases
 import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
@@ -23,9 +23,8 @@ export class UserController {
   ) { };
 
   @Post()
-  @UseGuards(LoginGuard)
   @ApiResponseType(UserPresenter, false)
-  async addUser(@Body() addUserDto: AddUserDto, @Req() request: any) {
+  async addUser(@Body() addUserDto: AddUserDto, @Req() request: any, @Res() res: any) {
     // Testing if exist a logged user
     if (request.user) {
       (new LoggerService).warn('UserController.addUser', `Exist logget user`);
@@ -35,6 +34,6 @@ export class UserController {
     const { username, password } = addUserDto;
     const userCreated = await this.addUserUseCaseProxy.getInstance().execute(username, password);
 
-    return new UserPresenter(userCreated);
+    return res.json(new UserPresenter(userCreated));
   };
 }

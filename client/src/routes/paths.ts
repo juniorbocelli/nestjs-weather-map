@@ -11,7 +11,7 @@ const ROOTS_DASHBOARD = '';
 export const PATH_AUTH = {
   root: ROOTS_APP,
   login: path(ROOTS_APP, '/login'),
-  register: path(ROOTS_APP, '/register'),
+  register: path(ROOTS_APP, '/cadastro'),
 };
 
 export const PATH_DASHBOARD = {

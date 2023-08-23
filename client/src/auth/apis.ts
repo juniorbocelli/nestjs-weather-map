@@ -1,3 +1,6 @@
+import { AxiosError } from 'axios';
+import { IAxiosExceptionData } from 'src/@types/exception';
+
 // APIs
 import {
   loginAPI,
@@ -8,10 +11,11 @@ import {
 import { IUser } from 'src/@types/user';
 import { IAuthStates, } from 'src/auth/types';
 // Others imports
-import LocalStorage from 'src/utils/LocalStorage';
+import LocalStorage from 'src/utils/localStorage';
+import SanitizerString from 'src/utils/sanitizerString';
 
 export interface IUseAuthAPI {
-  login: (email: string, password: string) => void;
+  login: (username: string, password: string) => void;
   logout: () => void;
   checkSession: () => void;
 };
@@ -19,7 +23,7 @@ export interface IUseAuthAPI {
 // APIs =============================================================================================================================================
 function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
   const setLogged = (user: IUser) => {
-    if (typeof user.id !== "undefined" && typeof user.type !== "undefined") {
+    if (typeof user.id !== "undefined" && typeof user.username !== "undefined") {
       states.setLoggedUser({
         id: user.id,
         username: user.username,
@@ -37,23 +41,14 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
     LocalStorage.clearToken();
   };
 
-  const login = (email: string, password: string) => {
+  const login = (username: string, password: string) => {
     states.setIsQueryingAPI(true);
 
-    loginAPI(email, password)
+    loginAPI(username, password)
       .then(async response => {
-        console.log('response => loginAPI', response);
-        // Verify if exist errors
-        if (typeof (response.data.error) !== 'undefined') {
-          setNotLogged();
-          states.setErrorMessage(response.data.error);
-
-          return;
-        };
-
         // Verify if user exist
-        if (response.data.user !== null) {
-          const { user } = response.data;
+        if (SanitizerString.stringOrNull(response.data.username) !== null) {
+          const user = response.data;
 
           try {
             // Set loggedIn routines
@@ -65,9 +60,9 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
           };
         }
       })
-      .catch(error => {
+      .catch((error: AxiosError<IAxiosExceptionData>) => {
         setNotLogged();
-        states.setErrorMessage(error.message);
+        states.setAxiosErrorMessage(error);
       })
       .finally(() => {
         states.setIsQueryingAPI(false);
@@ -80,10 +75,10 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
 
     logoutAPI()
       .then(response => {
-        console.log('response => logoutAPI', response);
+
       })
-      .catch(error => {
-        states.setErrorMessage(error.data.message);
+      .catch((error: AxiosError<IAxiosExceptionData>) => {
+        states.setAxiosErrorMessage(error);
       })
       .finally(() => {
         states.setIsQueryingAPI(false);
@@ -102,26 +97,17 @@ function useAuthAPIs(states: IAuthStates): IUseAuthAPI {
 
     checkSessionAPI()
       .then(response => {
-        console.log('response => checkSessionAPI', response);
-        // Verify if exist errors
-        if (typeof (response.data.error) !== 'undefined') {
-          setNotLogged();
-          states.setErrorMessage(response.data.error);
-
-          return;
-        };
-
         // Verify if user exist
-        if (response.data.user !== null) {
-          const { user } = response.data;
+        if (SanitizerString.stringOrNull(response.data.username) !== null) {
+          const user = response.data;
 
           // Set loggedIn routines
           setLogged(user);
         };
       })
-      .catch(error => {
+      .catch((error: AxiosError<IAxiosExceptionData>) => {
         setNotLogged();
-        states.setErrorMessage(error.data.message);
+        states.setAxiosErrorMessage(error);
       })
       .finally(() => {
 

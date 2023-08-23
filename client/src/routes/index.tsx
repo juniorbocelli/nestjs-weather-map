@@ -1,6 +1,4 @@
 import { Navigate, useRoutes } from 'react-router-dom';
-// hooks
-import useFeedback from 'src/hooks/feedbacks/states';
 // auth
 import CheckSession from 'src/auth/CheckSession';
 // layouts
@@ -13,14 +11,13 @@ import * as Paths from 'src/routes/paths';
 import {
   // Auth
   LoginPage,
+  RegisterPage,
 
 } from 'src/routes/elements';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const feedbacks = useFeedback();
-
   return useRoutes([
     /**
      * Auth
@@ -34,6 +31,14 @@ export default function Router() {
           element: (
             <CheckSession>
               <LoginPage />
+            </CheckSession>
+          ),
+        },
+        {
+          path: Paths.PATH_AUTH.register,
+          element: (
+            <CheckSession>
+              <RegisterPage />
             </CheckSession>
           ),
         },
@@ -52,8 +57,6 @@ export default function Router() {
             title='Cidades'
 
             pageTitle='Home'
-
-            fatherStates={feedbacks}
           />
         </CheckSession>
       ),

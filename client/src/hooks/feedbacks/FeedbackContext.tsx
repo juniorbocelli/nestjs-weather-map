@@ -1,9 +1,12 @@
+import { AxiosError } from 'axios';
 import React from 'react';
+
 // @types
 import {
   IFeedbackContext,
   IUseFeedbackStates,
 } from 'src/hooks/feedbacks/types';
+import { IAxiosExceptionData } from 'src/@types/exception';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +29,8 @@ export const FeedbackContextProvider: React.FC<ISetFeedbackProviderProps> = ({ c
 
     dialogMessage,
     setDialogMessage,
+
+    setErrorMessageFromAxiosError,
   } = states;
 
   const _states = React.useMemo(() => (
@@ -38,6 +43,8 @@ export const FeedbackContextProvider: React.FC<ISetFeedbackProviderProps> = ({ c
 
       dialogMessage,
       setDialogMessage,
+
+      setErrorMessageFromAxiosError,
     }
   ), [
     isQueryingAPI,
@@ -48,6 +55,8 @@ export const FeedbackContextProvider: React.FC<ISetFeedbackProviderProps> = ({ c
 
     dialogMessage,
     setDialogMessage,
+
+    setErrorMessageFromAxiosError,
   ]);
 
   const contexts = React.useMemo(() => ({ states: _states }), [_states]);

@@ -1,4 +1,6 @@
+import { AxiosError } from "axios";
 import React from "react";
+import { IAxiosExceptionData } from "src/@types/exception";
 
 import { IUser as LoggedUser } from 'src/@types/user';
 
@@ -17,6 +19,8 @@ export interface IAuthStates {
 
   errorMessage: ErrorMessageState;
   setErrorMessage: React.Dispatch<React.SetStateAction<ErrorMessageState>>;
+
+  setAxiosErrorMessage: (error: AxiosError<IAxiosExceptionData>) => void;
 };
 
 export interface IAuthContext {
@@ -28,6 +32,8 @@ export interface IAuthContext {
 
     errorMessage: ErrorMessageState;
     setErrorMessage: React.Dispatch<React.SetStateAction<ErrorMessageState>>;
+
+    setAxiosErrorMessage: (error: AxiosError<IAxiosExceptionData>) => void;
   },
 
   login: (username: string, password: string) => void,

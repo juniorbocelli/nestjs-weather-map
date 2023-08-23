@@ -23,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(username: string, password: string) {
     if (!username || !password) {
       this.logger.warn('LocalStrategy', `Username or password is missing, BadRequestException`);
-      this.exceptionService.UnauthorizedException();
+      this.exceptionService.UnauthorizedException({ code_error: 401, message: 'Username ou senha inválidos' });
     };
 
     const user = await this.loginUseCaseProxy.getInstance().validateUserForLocalStragtegy(username, password);

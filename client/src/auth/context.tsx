@@ -31,6 +31,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
     errorMessage,
     setErrorMessage,
+
+    setAxiosErrorMessage,
   } = states;
   const _states = React.useMemo(() => (
     {
@@ -42,6 +44,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
       errorMessage,
       setErrorMessage,
+
+      setAxiosErrorMessage,
     }
   ), [
     loggedUser,
@@ -52,6 +56,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
     errorMessage,
     setErrorMessage,
+
+    setAxiosErrorMessage,
   ]);
 
   // APIs
@@ -82,6 +88,8 @@ export const AuthContextProvider: React.FC<Props> = ({ children }) => {
 
       errorMessage: _states.errorMessage,
       setErrorMessage: _states.setErrorMessage,
+
+      setAxiosErrorMessage: _states.setAxiosErrorMessage,
     },
     login: _apis.login,
     logout: _apis.logout,
