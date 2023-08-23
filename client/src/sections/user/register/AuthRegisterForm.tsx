@@ -23,7 +23,7 @@ import { useFeedbackContext } from 'src/hooks/feedbacks';
 // components
 import { Iconify } from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
-import { AlertDialog } from 'src/components/alert-dialog';
+import { AlertDialog } from 'src/components/modal-dialog';
 // hooks
 import { useRegisterStates } from 'src/sections/user/register/states';
 import { useRegisterAPIs } from 'src/sections/user/register/apis';

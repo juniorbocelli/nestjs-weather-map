@@ -9,7 +9,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 
 // components
 import { BackDrop } from 'src/components/back-drop';
-import { AlertDialog } from 'src/components/alert-dialog';
+import { AlertDialog } from 'src/components/modal-dialog';
 // contexts
 import { useAuthContext } from 'src/auth/context';
 import { useFeedbackContext } from 'src/hooks/feedbacks';

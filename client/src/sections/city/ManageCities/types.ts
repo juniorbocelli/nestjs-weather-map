@@ -6,7 +6,7 @@ import { ICity } from 'src/@types/city';
  * STATES
  */
 export type CitiesStates = ICity[];
-export type IdToRemove = number | null;
+export type IdToRemove = { id: number, name: string } | null;
 
 export interface IUseManageCitiesStates {
   cities: CitiesStates;

@@ -21,6 +21,7 @@ interface IAlertDialogProps {
 
   dialogProps?: DialogProps;
   buttonProps?: ButtonProps;
+  buttonText?: string;
 };
 
 export default function AlertDialog(props: IAlertDialogProps) {
@@ -34,6 +35,7 @@ export default function AlertDialog(props: IAlertDialogProps) {
 
     dialogProps,
     buttonProps,
+    buttonText,
   } = props;
 
   const handleClose = () => {
@@ -60,7 +62,7 @@ export default function AlertDialog(props: IAlertDialogProps) {
 
       <DialogActions>
         <Button onClick={handleClose} color='primary' {...buttonProps}>
-          Fechar
+          {typeof buttonText === 'undefined' ? 'Fechar' : buttonText}
         </Button>
       </DialogActions>
 

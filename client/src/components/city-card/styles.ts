@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+import { Paper, useMediaQuery } from '@mui/material';
 
 export const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -8,4 +8,5 @@ export const Item = styled(Paper)(({ theme }) => ({
   margin: 0,
   textAlign: 'center',
   color: theme.palette.text.secondary,
+  maxHeight: useMediaQuery(theme.breakpoints.up('sm')) ? '100px' : '140px'
 }));

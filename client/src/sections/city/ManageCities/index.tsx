@@ -19,6 +19,7 @@ import { Title } from 'src/components/title';
 import FormProvider from 'src/components/hook-form';
 import { SendCityForm } from 'src/components/send-city-form';
 import { CityCard } from 'src/components/city-card';
+import { ConfirmationDialog } from 'src/components/modal-dialog';
 // contexts
 import { useManageCitiesContext } from 'src/sections/city/ManageCities/context';
 import { useFeedbackContext } from 'src/hooks/feedbacks';
@@ -39,8 +40,8 @@ type FormValuesProps = {
 const ManageCities: React.FC<IManageCitiesProps> = ({ sx }) => {
   const context = useManageCitiesContext();
   const { useComponentDidMount } = context.effects;
-  const { createCity } = context.apis;
-  const { cities, setIdToRemove } = context.states;
+  const { createCity, deleteCity } = context.apis;
+  const { cities, idToRemove, setIdToRemove } = context.states;
 
   const { states: feebackStates } = useFeedbackContext();
   const { isQueryingAPI } = feebackStates;
@@ -71,6 +72,8 @@ const ManageCities: React.FC<IManageCitiesProps> = ({ sx }) => {
     // control business rules
     try {
       createCity(data.name);
+
+      reset();
     } catch (error) {
       if (process.env.NODE_ENV === 'development')
         console.error(error);
@@ -81,6 +84,21 @@ const ManageCities: React.FC<IManageCitiesProps> = ({ sx }) => {
 
   return (
     <Container sx={{ minHeight: '100%', p: { xs: 1, md: 5 } }}>
+      <ConfirmationDialog
+        open={idToRemove !== null}
+        onClose={() => setIdToRemove(null)}
+        onConfirm={() => deleteCity(idToRemove!?.id)}
+        title="Atenção"
+        content={
+          <div>
+            Tem certeza que quer remover a cidade <span style={{ fontWeight: 'bold' }}>{idToRemove!?.name}</span>?
+          </div>
+        }
+
+        buttonOkProps={{ color: 'error' }}
+        buttonOkText="Remover"
+      />
+
       <Title>
         Cidades Cadastradas
       </Title>
@@ -109,9 +127,12 @@ const ManageCities: React.FC<IManageCitiesProps> = ({ sx }) => {
                     xs: 'repeat(1, 1fr)', // 0
                     sm: 'repeat(1, 1fr)', // 600
                     md: 'repeat(2, 1fr)', // 900
-                    lg: 'repeat(3, 1fr)', // 1200
-                    xl: 'repeat(4, 1fr)', // 1536
+                    lg: 'repeat(2, 1fr)', // 1200
+                    xl: 'repeat(3, 1fr)', // 1536
                   },
+                  overflowY: { xs: 'scroll', sm: undefined },
+
+                  height: { xs: '50vh', sm: undefined }
                 }
               }
             >
@@ -120,8 +141,7 @@ const ManageCities: React.FC<IManageCitiesProps> = ({ sx }) => {
                 cities.map(c => (
                   <CityCard
                     cityData={c}
-                    setToRemove={(id: number) => setIdToRemove(id)}
-                    sx={{ flexGrow: 1 }}
+                    setToRemove={(id: number, name: string) => setIdToRemove({ id, name })}
                     key={uuidv4()}
                   />
                 ))
