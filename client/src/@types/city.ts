@@ -1,6 +1,9 @@
 export interface ICity {
   id: number;
 
+  // id of city in OpenWeather API
+  apiId: number;
+
   main: {
     temp: number;
     feels_like: number;

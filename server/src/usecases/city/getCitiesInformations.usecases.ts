@@ -22,13 +22,14 @@ export class GetCitiesInformationsUseCases {
     const citiesFromUser = await this.cityRepository.findAllFromUser(userId);
 
     for (let i = 0; i < citiesFromUser.length; i++) {
-      promises.push(this.openWeather.getWeatherInfoById(citiesFromUser[i].id, this.config.getOpenWeatherKey(), lang, units));
+      promises.push(this.openWeather.getWeatherInfoById(citiesFromUser[i].id, citiesFromUser[i].apiId, this.config.getOpenWeatherKey(), lang, units));
     };
 
     const resolves = await Promise.all(promises);
     resolves.forEach(r => {
       informations.push({
         id: r.id,
+        apiId: r.apiId,
         main: r.main,
         weather: r.weather[0],
         name: r.name

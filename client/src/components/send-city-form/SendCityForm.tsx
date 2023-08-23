@@ -28,8 +28,7 @@ const SendCityForm: React.FC<ISendCityFormProps> = ({ isQueringApi, sx }) => (
       justifyContent: 'center',
       alignItems: 'center',
       width: { xs: 300, md: 400 },
-
-      mb: { xs: 2 }
+      mb: { xs: 2, md: 4 }
     }}
   >
     <RHFTextField

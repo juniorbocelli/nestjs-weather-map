@@ -166,7 +166,7 @@ export default function AuthRegisterForm() {
           loading={isQueryingAPI}
           sx={{ mx: 'auto' }}
         >
-          Entrar
+          Cadastrar
         </LoadingButton>
       </Box>
     </FormProvider>

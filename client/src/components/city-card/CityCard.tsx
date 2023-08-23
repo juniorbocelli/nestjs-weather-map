@@ -6,11 +6,13 @@ import {
   Button,
 
   SxProps,
+  useMediaQuery
 } from '@mui/material';
-import { Theme } from '@mui/material/styles';
+import { Theme, useTheme } from '@mui/material/styles';
 
 // components
 import { Item } from 'src/components/city-card/styles';
+import { MaxAndMinTemp } from 'src/components/max-min-temp';
 // interfaces
 import { ICity } from 'src/@types/city';
 
@@ -23,13 +25,18 @@ interface ICityCardProps {
   sx?: SxProps<Theme>;
 };
 
-const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => (
-  <Item>
+const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => {
+  const theme = useTheme();
+  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
+
+  return (<Item>
     <Box
       sx={{
         ...sx,
         display: 'flex',
         margin: 'auto',
+        minWidth: { xs: 290, md: 370 },
+        mb: { xs: 0.3, md: 0 }
       }}
     >
       <Box
@@ -40,6 +47,8 @@ const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => (
         height={50}
 
         sx={{ m: 0 }}
+
+        alt={`Imagem indicando ${cityData.weather.description} agora`}
       />
 
       <Box sx={{
@@ -54,7 +63,7 @@ const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => (
           sx={{
             fontSize: '1.2rem',
             mb: -1,
-            width: '200px',
+            width: { xs: '150px', md: '200px' },
           }}
 
           align="left"
@@ -68,7 +77,8 @@ const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => (
           sx={{
             fontSize: '1.0rem',
             fontStyle: 'italic',
-            width: '200px',
+            width: { xs: '150px', md: '200px' },
+            textTransform: 'capitalize'
           }}
 
           align="left"
@@ -76,11 +86,37 @@ const CityCard: React.FC<ICityCardProps> = ({ cityData, setToRemove, sx }) => (
           {cityData.weather.description}
         </Typography>
       </Box>
+
+      {
+        isSmUp ?
+          <MaxAndMinTemp maxTemp={cityData.main.temp_max} minTemp={cityData.main.temp_min} sx={{ justifyContent: 'space-around' }} />
+          :
+          null
+      }
+
     </Box>
+
+    {
+      !isSmUp ?
+        <MaxAndMinTemp
+          maxTemp={cityData.main.temp_max}
+          minTemp={cityData.main.temp_min}
+          sx={{
+            alignItems: 'start',
+            justifyContent: 'space-around',
+            flexDirection: 'row',
+            width: '280px',
+            mb: 1
+          }}
+        />
+        :
+        null
+    }
     <Button color="error" size="small" onClick={() => setToRemove(cityData.id)}>
       Remover
     </Button>
   </Item>
-);
+  );
+}
 
 export default CityCard;

@@ -1,5 +1,9 @@
 export interface OpenWeatherM {
-  id: number;
+  // id from CityM id
+  id?: number;
+
+  // id of city in OpenWeather API
+  apiId: number;
 
   main: {
     temp: number;

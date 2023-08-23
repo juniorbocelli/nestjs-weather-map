@@ -6,6 +6,7 @@ export class DeleteCityUseCases {
 
   async execute(id: number, userId: number): Promise<void> {
     const city = await this.cityRepository.findById(id);
+
     if (city.user.id === userId)
       await this.cityRepository.deleteById(id);
 
